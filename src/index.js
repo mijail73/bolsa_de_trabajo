@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import TopHeader from './components/UI/Header/TopHeader';
 
 ReactDOM.render(
   <React.StrictMode>
+    <TopHeader></TopHeader>
     <App />
   </React.StrictMode>,
   document.getElementById('root')
