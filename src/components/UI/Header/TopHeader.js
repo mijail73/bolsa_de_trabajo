@@ -3,98 +3,57 @@ import quimica from '../../../img/logo_quimica.png';
 import unam from '../../../img/logo_unam.png';
 
 const HeaderFondoAzul = styled.div`
-  height: 250px;
-  padding: 30px;
-  margin: 0px;
+  height: 145px;
+  padding: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   text-align: center;
-  background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);
+  background-image: linear-gradient(
+    180deg,
+    rgba(26, 59, 136, 1) 0%,
+    rgba(38, 79, 145, 1) 35%,
+    rgba(51, 101, 154, 1) 100%
+  );
   color: #fff;
-  font-size: 25px;
-  z-index: 1;
-  grid-template-columns: repeat(3, 1fr); */}
+  font-size: 18px;
+  overflow: auto;
   font-family: 'Trebuchet MS', sans-serif;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 500px) {
+    padding: 0px;
+    font-size: 11px;
+    justify-content: center;
     height: 65px;
-    font-size: .8rem;
-    padding-top: 10px;
-    padding-left: 0px;
-    padding-right: 0px;
+    h1 {
+      margin: 0px;
+    }
+    h2 {
+      margin: 0px;
+    }
+    img {
+      display: none;
+    }
   }
-`;
-
-const LogoQuimica = styled.div`
-  width: 300px;
-  height: 300px;
-  position: absolute;
-  background-image: url(${quimica});
-  z-index: 1;
-  left: 0px;
-  top: 0px;
-  @media screen and (max-width: 600px) {
-    display: none;
+  @media screen and (min-width: 501px) and (max-width: 630px) {
+    height: 65px;
+    font-size: 0.6rem;
+    h1 {
+      margin-top: 0px;
+    }
   }
-  @media screen and (max-width: 1200px) {
-    left: -150px;
-  }
-`;
-
-const LogoUnam = styled.div`
-  width: 250px;
-  height: 300px;
-  position: absolute;
-  background-image: url(${unam});
-  z-index: 1;
-  right: 0px;
-  top: 0px;
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
-  @media screen and (max-width: 1200px) {
-    right: -120px;
-  }
-`;
-
-const Titulo = styled.h1`
-  position: relative;
-  margin-top: 0px;
-  z-index: 2;
-  @media screen and (max-width: 825px) and (min-width: 600px) {
-    -webkit-text-stroke: 2px black;
-  }
-`;
-
-const Subtitulo = styled.h2`
-  position: relative;
-  z-index: 2;
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
-  @media screen and (max-width: 825px) and (min-width: 600px) {
-    -webkit-text-stroke: 2px black;
-  }
-`;
-
-const SubtituloCelular = styled.h2`
-  @media screen and (min-width: 600px) {
-    display: none;
+  @media screen and (min-width: 631px) and (max-width: 930px) {
+    font-size: 0.8rem;
   }
 `;
 
 function TopHeader() {
   return (
     <HeaderFondoAzul>
-      <LogoQuimica />
+      <img src={quimica} alt="" />
       <div>
-        <Titulo>FACULTAD DE QUÍMICA</Titulo>
-        <Subtitulo>BOLSA DE TRABAJO</Subtitulo>
-        <Subtitulo>Y PRÁCTICAS PROFESIONALES</Subtitulo>
-        <SubtituloCelular>
-          BOLSA DE TRABAJO Y PRÁCTICAS PROFESIONALES
-        </SubtituloCelular>
+        <h1>FACULTAD DE QUÍMICA</h1>
+        <h2>BOLSA DE TRABAJO Y PRÁCTICAS PROFESIONALES</h2>
       </div>
-      <LogoUnam />
+      <img src={unam} alt="" />
     </HeaderFondoAzul>
   );
 }
