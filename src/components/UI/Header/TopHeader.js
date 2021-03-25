@@ -16,7 +16,7 @@ const HeaderFondoAzul = styled.div`
   );
   color: #fff;
   font-size: 18px;
-  overflow: auto;
+  overflow: hidden;
   font-family: 'Trebuchet MS', sans-serif;
   @media screen and (max-width: 500px) {
     padding: 0px;
