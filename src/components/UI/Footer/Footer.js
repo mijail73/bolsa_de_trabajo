@@ -1,40 +1,40 @@
 import React from 'react';
+import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 
-const useStyles = makeStyles((theme) => ({
-  footer: {
-    padding: theme.spacing(0.001, 0.001),
-    marginTop: 'auto',
-    backgroundColor:
-      theme.palette.type === 'light'
-        ? theme.palette.grey[200]
-        : theme.palette.grey[800],
-  },
-}));
+const Stylefooter = styled.div`
+  margin-top: 1rem;
+  background-color: rgb(192, 192, 192, 0.4);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+`;
 
 function Foo() {
-  const classes = useStyles();
   return (
-    <footer className={classes.footer}>
-      <Container maxWidth="sm">
-        <Typography variant="body2" color="textSecondary" align="center">
-          {new Date().getFullYear()}
-          {
-            ' - UNAM. Facultad de Química. Secretaría de Planeación e informatica. Todos los derechos reservados. |'
-          }
-          <Link
-            color="blue"
-            href="https://quimica.unam.mx/aviso-de-privacidad/"
-          >
-            {' Aviso de privacidad'}
-          </Link>
-          {'.'}
-        </Typography>
-      </Container>
-    </footer>
+    <Stylefooter>
+      <footer>
+        <Container>
+          <Typography variant="body2" color="textSecondary" align="center">
+            {new Date().getFullYear()}
+            {
+              ' - UNAM. Facultad de Química. Secretaría de Planeación e informatica. Todos los derechos reservados. |'
+            }
+            <Link
+              target="_blank"
+              color="initial"
+              href="https://quimica.unam.mx/aviso-de-privacidad/"
+            >
+              {' Aviso de privacidad'}
+            </Link>
+            {'.'}
+          </Typography>
+        </Container>
+      </footer>
+    </Stylefooter>
   );
 }
 export default Foo;

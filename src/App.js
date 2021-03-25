@@ -31,6 +31,17 @@ function App() {
         </Route>
         <Route path="/registro">REGISTRO</Route>
         <Route path="/vacantes">VACANTES</Route>
+        <Route path="/acerca">Acerca de nosotros</Route>
+        <Route path="/contacto">
+          <h2 align="center">Contacto</h2>
+          <p align="center">
+            Para cualquier duda que tengas con respecto a la Bolsa de Trabajo y
+            Prácticas Profesionales puedes dirigirte con:
+          </p>
+          <p align="center">Maestro Javier Olguin Huerta, Encargada de BTYPP</p>
+          <p align="center">bolsatradebajofq@unam.mx</p>
+          <p align="center">Teléfono: 55 55 55 55 55</p>
+        </Route>
         <Route path="/" exact>
           <div className="App">
             <header className="App-header">
