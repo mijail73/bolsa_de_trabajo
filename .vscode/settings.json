@@ -1,7 +1,8 @@
 {
-    // Servicio formato de programacion Bolsa de trabajo
-    // INSTALL;
-    // Prettier - Code formatter 11,317,472 Descargas
+    "[php]": {
+        "editor.tabSize": 2,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
     "[html]": {
         "editor.tabSize": 2,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -31,8 +32,6 @@
     "emmet.includeLanguages": {
         "javascript": "javascriptreact"
     },
-    // mostrar codigo legible en pantallas pequeñas segmenta una linea de 
-    // codigo larga en n lineas para adaptarse en la pantalla
     "editor.wordWrap": "on",
     "prettier.singleQuote": true,
 }
