@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import TopHeader from './components/UI/Header/TopHeader';
+import NavBar from './components/UI/Header/NavBar';
 import Footer from './components/UI/Footer/Footer';
 import FormSingleField from './components/UI/FormSigleField/FormSingleField';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -18,7 +19,8 @@ function App() {
   };
   return (
     <Router>
-      <TopHeader></TopHeader>
+      <TopHeader />
+      <NavBar />
       <Switch>
         <Route path="/login">
           LOGIN

@@ -10,15 +10,17 @@ const TopNav = styled.div`
   overflow: hidden;
   background: #215ab1;
   border: 1px solid #183b70;
-  ${'' /* position: fixed; */}
-  width: 100vw;
-  ${'' /* z-index: 4; */}
+  &.sticky {
+    position: fixed;
+    z-index: 1;
+    width: 100vw;
+    top: 0;
+  }
 `;
 
 const SubNav = styled.div`
   float: left;
   overflow: hidden;
-  ${'' /* postition: fixed; */}
   &:hover {
     background: #fff;
     color: #215ab1;
@@ -69,6 +71,9 @@ const SubNavContent = styled.div`
   ${SubNav}:hover & {
     display: block;
   }
+  &.sticky {
+    position: fixed;
+  }
 `;
 
 const TextoeIcono = styled.div`
@@ -79,16 +84,57 @@ const TextoeIcono = styled.div`
 `;
 
 function NavBar() {
+  document.addEventListener('DOMContentLoaded', () => {
+    // When the event DOMContentLoaded occurs, it is safe to access the DOM
+
+    // Get the navbar
+    let navbar = document.getElementById('navbar');
+    let postulantes = document.getElementById('postulantescontent');
+    let empleadores = document.getElementById('empleadorescontent');
+
+    // Get the offset position of the navbar
+    var sticky = navbar.offsetTop;
+    // console.log(sticky);
+    // Add the sticky class to the navbar when you reach its scroll position.
+    // Remove "sticky" when you leave the scroll position
+
+    const shortSticky = function myFunctionForSticky() {
+      // if (window.pageYOffset >= sticky) {
+      //   console.log('window.pageYOffset >= sticky');
+      // } else {
+      //   console.log('Not window.pageYOffset >= sticky');
+      // }
+      if (window.pageYOffset >= sticky) {
+        navbar.classList.add('sticky');
+        postulantes.classList.add('sticky');
+        empleadores.classList.add('sticky');
+      } else {
+        navbar.classList.remove('sticky');
+        postulantes.classList.remove('sticky');
+        empleadores.classList.remove('sticky');
+      }
+    };
+
+    // When the user scrolls the page, execute myFunction
+    window.addEventListener('scroll', shortSticky);
+
+    /*Toggle between adding and removing the "responsive" class to topnav
+    when the user clicks on the icon*/
+
+    // function myFunctionForResponsive() {
+    //   navbar.classList.toggle('responsive');
+    // }
+  });
   const year = new Date().getFullYear();
   return (
-    <TopNav>
+    <TopNav id="navbar">
       <MyNavLink
         exact
         to="/"
-        // activeStyle={{
-        //   color: '#ffff',
-        //   background: '#49d049',
-        // }}
+        activeStyle={{
+          color: '#ffff',
+          background: '#49d049',
+        }}
       >
         <TextoeIcono>
           INICIO
@@ -102,14 +148,14 @@ function NavBar() {
             <PersonIcon style={{ marginLeft: 5 }} />
           </TextoeIcono>
         </SubNavButton>
-        <SubNavContent>
+        <SubNavContent id="postulantescontent">
           <MyNavLink
             exact
-            to="/"
-            // activeStyle={{
-            //   color: '#ffff',
-            //   background: '#49d049',
-            // }}
+            to="/vacantes"
+            activeStyle={{
+              color: '#ffff',
+              background: '#49d049',
+            }}
           >
             VACANTES DISPONIBLES
           </MyNavLink>
@@ -142,7 +188,7 @@ function NavBar() {
             <AssignmentIndIcon style={{ marginLeft: 5 }} />
           </TextoeIcono>
         </SubNavButton>
-        <SubNavContent>
+        <SubNavContent id="empleadorescontent">
           <MyNavLink
             exact
             to="/"
@@ -177,7 +223,7 @@ function NavBar() {
       </SubNav>
       <MyNavLink
         exact
-        to="/"
+        to="/contacto"
         activeStyle={{
           color: '#ffff',
           background: '#49d049',
@@ -190,7 +236,7 @@ function NavBar() {
       </MyNavLink>
       <MyNavLink
         exact
-        to="/"
+        to="/acerca"
         activeStyle={{
           color: '#ffff',
           background: '#49d049',
