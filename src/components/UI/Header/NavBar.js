@@ -67,7 +67,7 @@ const SubNavContent = styled.div`
   left: 0;
   background-color: #02337d;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
   ${SubNav}:hover & {
     display: block;
   }
@@ -161,7 +161,7 @@ function NavBar() {
           </MyNavLink>
           <MyNavLink
             exact
-            to="/"
+            to="/tramites"
             activeStyle={{
               color: '#ffff',
               background: '#49d049',
@@ -171,7 +171,7 @@ function NavBar() {
           </MyNavLink>
           <MyNavLink
             exact
-            to="/"
+            to="/btfq"
             activeStyle={{
               color: '#ffff',
               background: '#49d049',
@@ -191,7 +191,7 @@ function NavBar() {
         <SubNavContent id="empleadorescontent">
           <MyNavLink
             exact
-            to="/"
+            to="/registro"
             activeStyle={{
               color: '#ffff',
               background: '#49d049',
@@ -201,7 +201,7 @@ function NavBar() {
           </MyNavLink>
           <MyNavLink
             exact
-            to="/"
+            to="/info"
             activeStyle={{
               color: '#ffff',
               background: '#49d049',
@@ -211,7 +211,7 @@ function NavBar() {
           </MyNavLink>
           <MyNavLink
             exact
-            to="/"
+            to="/taller"
             activeStyle={{
               color: '#ffff',
               background: '#49d049',
