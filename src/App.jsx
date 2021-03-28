@@ -1,9 +1,16 @@
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import TopHeader from './components/UI/Header/TopHeader';
 import Footer from './components/UI/Footer/Footer';
 import FormSingleField from './components/UI/FormSigleField/FormSingleField';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+// import axios from 'axios';
+import LoginUsuario from './components/LoginUsuario';
+
+// Redux
+import {Provider} from 'react-redux';
+import store from './redux/store';
 
 function App() {
   const rules = {
@@ -16,6 +23,19 @@ function App() {
   const sendForm = () => {
     console.log('Formulario válido');
   };
+
+  useEffect(() => {
+    // const token = '3e16fcdf4daa4d6d4f938e7dc9453c2b2026b1662681f214e6c5d6a3ab5f5443';
+    // let form = new FormData();
+    // form.append('data', JSON.stringify({ user: 'admin', pass: 'bolsadetrabajo', type: 'admin' }));
+    // axios.post('http://132.248.103.86/bolsa_de_trabajo/services/autenticacion.php', form, { headers: { BTKey: token }})
+    // .then(function (response) {
+    //   console.log(response.data);
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
+  });
   return (
     <Router>
       <TopHeader></TopHeader>
@@ -28,6 +48,11 @@ function App() {
             rules={[rules.required, rules.email]}
             action={sendForm}
           />
+        </Route>
+        <Route path="/login_usuario">
+          <Provider store={store}>
+            <LoginUsuario></LoginUsuario>
+          </Provider>
         </Route>
         <Route path="/registro">REGISTRO</Route>
         <Route path="/vacantes">VACANTES</Route>
