@@ -71,9 +71,8 @@ const LoginUsuario = () => {
       if (typeof result === 'string') {
         setField({...field, [element]: {...field[element], error: true, value: value, label: result}});
         break;
-      } else {  
-        setField({...field, [element]: {...field[element], error: false, value: value, label: ''}});
-      }
+      } 
+      setField({...field, [element]: {...field[element], error: false, value: value, label: ''}});
     }
   };
 
@@ -82,8 +81,9 @@ const LoginUsuario = () => {
   };
 
   const formularioValido = () => {
-    for (let f of Object.keys(field)) {
-      if (field[f].error) return false;
+    for (let f of ['user', 'pass']) {
+      manageErrors(field[f].value, f);
+      if (field[f].error || field[f].value === '') return false;
     }
     return true;
   }

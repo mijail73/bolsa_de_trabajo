@@ -26,7 +26,9 @@
         $conexion = $bolsaDeTrabajo->connect();
         try {
           $response['data'] = validaLogin($conexion, $user, $pass, $type);
-          if (count($response['data']) === 0) $response['replyText'] = 'Usuario o contraseña incorrectos'; 
+          if (count($response['data']) === 0) { 
+            $response['replyText'] = $type !== 'postulante' ? 'Usuario o contraseña incorrectos' : 'Usuario no encontrado';
+          }; 
         } catch (Exception $e) {
           $response['replyCode'] = 400;
           $response['replyText'] = 'Error: ' . $e->getMessage();

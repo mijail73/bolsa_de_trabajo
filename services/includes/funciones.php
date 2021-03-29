@@ -62,18 +62,21 @@
     switch ($type) {
       case 'admin':
         $result = $conexion->prepare('SELECT * FROM administrador WHERE user = ? AND pass = ?');
+        $vars = [$user, $pass];
         break;
       case 'empleador':
         $result = $conexion->prepare('SELECT * FROM empleador WHERE correoEmpleador = ? AND passEmpleador = ?');
+        $vars = [$user, $pass];
         break;
       case 'postulante':
         $field = strstr($user, '@') ? 'correo' : 'idPostulante';
-        $result = $conexion->prepare("SELECT * FROM postulante WHERE {$field} = ? AND pass = ?");
+        $result = $conexion->prepare("SELECT * FROM postulante WHERE {$field} = ? ");
+        $vars = [$user];
         break;
       default:
         break;
     }
-    $result->execute([$user, $pass]);
+    $result->execute($vars);
     return $result->fetchAll(PDO::FETCH_ASSOC);
   }
 ?>

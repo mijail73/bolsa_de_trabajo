@@ -41,6 +41,7 @@ export const obtieneReglas = () => () => {
     required: (v) => !!v || 'Este campo es requerido',
     email: (v) => /.+@.+\..+/.test(v) || 'Escribe un correo electrónico válido',
     cuenta: (v) => (/[0-9]+/.test(v) && v.length === 9) || 'Escribe un número de cuenta válido',
+    cuentaEmail: (v) => ( /.+@.+\..+/.test(v) || (/[0-9]+/.test(v) && v.length === 9)) || 'Escribe un número de cuenta o correo válido',
   }
 };
 
