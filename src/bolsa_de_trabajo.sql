@@ -15,7 +15,6 @@ CREATE TABLE postulante (
     idPostulante CHAR(9) PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     correo VARCHAR(50) NOT NULL,
-    pass VARCHAR(50) NOT NULL,
     telefono CHAR(10) NOT NULL,
     fechaNacimiento DATE NOT NULL,
     sexo ENUM('M', 'F', 'X') NOT NULL,

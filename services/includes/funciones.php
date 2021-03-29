@@ -51,32 +51,48 @@
     return false;
   }
   /**
-   * Valida si existe un usuario con las credenciales y tipo de usuario proporcionados.
+   * Valida si existe un usuario con el query y variables proporcionados.
    * @param  BolsaDeTrabajoDB conexion
-   * @param  string user
-   * @param  string pass
-   * @param  string type
+   * @param  string query
+   * @param  string vars
    * @return array
    */
-  function validaLogin ($conexion, $user, $pass, $type) {
-    switch ($type) {
-      case 'admin':
-        $result = $conexion->prepare('SELECT * FROM administrador WHERE user = ? AND pass = ?');
-        $vars = [$user, $pass];
-        break;
-      case 'empleador':
-        $result = $conexion->prepare('SELECT * FROM empleador WHERE correoEmpleador = ? AND passEmpleador = ?');
-        $vars = [$user, $pass];
-        break;
-      case 'postulante':
-        $field = strstr($user, '@') ? 'correo' : 'idPostulante';
-        $result = $conexion->prepare("SELECT * FROM postulante WHERE {$field} = ? ");
-        $vars = [$user];
-        break;
-      default:
-        break;
-    }
+  function validaLogin ($conexion, $query, $vars) {
+    $result = $conexion->prepare($query);
     $result->execute($vars);
+    return $result->fetchAll(PDO::FETCH_ASSOC);
+  }
+  /**
+   * Obtiene los datos de un alumno de la base de Sybase.
+   * @param  CaeDB conexion
+   * @param  string user
+   * @return array
+   */
+  function obtieneDatosAlumno ($conexionCae, $user) {
+    $query = 'SELECT AI.CUENTA, AI.NOMBRE, ADP.TELEFONO1, ADP.CELULAR, 
+              CONVERT (CHAR(10), AI.FECHA_NACIMIENTO, 103) AS FECHA_NACIMIENTO, AI.EMAIL, E.AVANCE,
+              C.NOMBRE AS CARRERA
+              FROM ALUMNO_INTERNO AI
+              LEFT JOIN ALUMNO_DAT_PER ADP ON AI.CUENTA = ADP.CUENTA
+              LEFT JOIN ESTUDIA E ON AI.CUENTA = E.CUENTA
+              LEFT JOIN (
+                SELECT CLAVE, NOMBRE FROM CARRERAS WHERE VIGENCIA = ? AND PLN >= ?
+              ) AS C ON C.CLAVE = E.CARRERA
+              WHERE AI.CUENTA = ? ';
+    $result = $conexionCae->prepare($query);    
+    $result->execute(['S', '2005', $user]);
+    return $result->fetchAll(PDO::FETCH_ASSOC);
+  }
+  /**
+   * Guarda un alumno en la base de datos mysql
+   * @param  BolsaDeTrabajoDB conexion
+   * @param  string 
+   * @return array
+   */
+  function obtieneDatosAlumno ($conexionCae, $user) {
+    $query = 'INSERT ';
+    $result = $conexionCae->prepare($query);    
+    $result->execute(['S', '2005', $user]);
     return $result->fetchAll(PDO::FETCH_ASSOC);
   }
 ?>

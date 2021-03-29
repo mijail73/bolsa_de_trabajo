@@ -98,6 +98,7 @@ const LoginUsuario = () => {
       let form = new FormData();
       form.append('data', JSON.stringify({ user: field.user.value, pass: 'pass', type: 'postulante' }));
       const result = await dispatch(validaLogin(form));
+      console.log(result);
       setTimeout(() => {
         setField({...field, progress: false});
         if (result.replyCode === 200 && result.data.length > 0) history.push("/vacantes");
@@ -138,9 +139,6 @@ const LoginUsuario = () => {
             </FormControl>
           </Paper>
         </Grid>
-      {/* <Grid item md={3}>
-        <Paper className={classes.paper}>Columna 2</Paper>
-      </Grid> */}
       </Grid>
     </div>
   )
