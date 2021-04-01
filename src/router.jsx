@@ -1,44 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import TopHeader from './components/UI/Header/TopHeader';
-import NavBar from './components/UI/Header/NavBar';
-import Footer from './components/UI/Footer/Footer';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-// import axios from 'axios';
-import LoginUsuario from './components/LoginUsuario';
-import LoginPostulante from './components/LoginPostulante';
+import { Switch, Route } from 'react-router-dom';
 
-// Redux
-import {Provider} from 'react-redux';
-import store from './redux/store';
-
-function App() {
+const Router = () => {
   return (
-    <BrowserRouter>
-      <TopHeader />
-      <NavBar />
-      <Switch>
-        <Route path="/registro_externos">
-          EXTERNOS
-        </Route>
-        <Route path="/vacantes">
-          VACANTES
-        </Route>
-        <Route path="/login">
-          LOGIN
-        </Route>
-        <Route path="/login_usuario">
-          <Provider store={store}>
-            <LoginUsuario></LoginUsuario>
-          </Provider>
-        </Route>
-        <Route path="/login_postulante">
-          <Provider store={store}>
-            <LoginPostulante></LoginPostulante>
-          </Provider>
-        </Route>
-        <Route path="/" exact>
+    <Switch>
+      <Route exact path="/registro_externos"> EXTERNOS </Route>
+      <Route path="/vacantes"> VACANTES </Route>
+      <Route path="/login"> LOGIN </Route>
+      <Route path="/login_usuario">
+        <Provider store={store}>
+          <LoginUsuario></LoginUsuario>
+        </Provider>
+      </Route>
+      <Route path="/login_postulante">
+        <Provider store={store}>
+          <LoginPostulante></LoginPostulante>
+        </Provider>
+      </Route>
+      <Route path="/" exact>
           <div className="App">
             <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
@@ -75,10 +54,8 @@ function App() {
           <p align="center">Teléfono: 55 55 55 55 55</p>
         </Route>
         <Route path="/acerca">Acerca de nosotros</Route>
-      </Switch>
-      <Footer />
-    </BrowserRouter>
+    </Switch>
   );
 }
 
-export default App;
+export default Router;

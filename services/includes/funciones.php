@@ -89,7 +89,7 @@
    * @param  string 
    * @return array
    */
-  function obtieneDatosAlumno ($conexionCae, $user) {
+  function guardaDatosAlumno ($conexionCae, $user) {
     $query = 'INSERT ';
     $result = $conexionCae->prepare($query);    
     $result->execute(['S', '2005', $user]);

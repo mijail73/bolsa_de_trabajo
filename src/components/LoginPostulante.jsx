@@ -98,7 +98,6 @@ const LoginUsuario = () => {
       let form = new FormData();
       form.append('data', JSON.stringify({ user: field.user.value, pass: 'pass', type: 'postulante' }));
       const result = await dispatch(validaLogin(form));
-      console.log(result);
       setTimeout(() => {
         setField({...field, progress: false});
         if (result.replyCode === 200 && result.data.length > 0) history.push("/vacantes");
