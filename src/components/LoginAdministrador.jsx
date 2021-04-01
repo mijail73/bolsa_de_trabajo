@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, FormControl, Card, Box, CardContent, Typography } from '@material-ui/core/';
 import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { validaLogin, obtieneReglas } from './../redux/store';
+import { validaLogin, obtieneReglas } from '../store';
 import BarraProgreso from './UI/BarraProgreso';
 import Alerta from './UI/Alerta';
 
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginUsuario = () => {
+const LoginAdmin = () => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -91,7 +91,7 @@ const LoginUsuario = () => {
   // const usuario = useSelector(store => store.usuario);
   // console.log('Usuario', usuario);
 
-  const validaLoginUsuario = async () => {
+  const validaLoginAdmin = async () => {
     if (formularioValido()) {
       setField({...field, progress: true, alerta: {active: false, text: ''} });
       let form = new FormData();
@@ -140,7 +140,7 @@ const LoginUsuario = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={validaLoginUsuario}
+                onClick={validaLoginAdmin}
                 className={classes.button}
               >
                 Acceder
@@ -153,4 +153,4 @@ const LoginUsuario = () => {
   )
 };
 
-export default LoginUsuario;
+export default LoginAdmin;

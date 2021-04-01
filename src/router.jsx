@@ -1,61 +1,42 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
+// Store
+import { useSelector } from 'react-redux';
+
+// Components
+import LoginAdmin from './components/LoginAdministrador';
+import LoginPostulante from './components/LoginPostulante';
+import Inicio from './components/Inicio';
+import Contacto from './components/Contacto';
+import AcercaDe from './components/AcercaDe';
+
+
 
 const Router = () => {
+  const usuario = useSelector(store => store.usuario);
+  const AdminLogin = () => {
+    // return usuario.length > 0 ? (<LoginAdmin/>) : (<Redirect to="/"/>);
+    return (<LoginAdmin/>);
+  };
+
   return (
     <Switch>
+      <Route exact path="/" component={Inicio} />
       <Route exact path="/registro_externos"> EXTERNOS </Route>
-      <Route path="/vacantes"> VACANTES </Route>
-      <Route path="/login"> LOGIN </Route>
-      <Route path="/login_usuario">
-        <Provider store={store}>
-          <LoginUsuario></LoginUsuario>
-        </Provider>
-      </Route>
-      <Route path="/login_postulante">
-        <Provider store={store}>
-          <LoginPostulante></LoginPostulante>
-        </Provider>
-      </Route>
-      <Route path="/" exact>
-          <div className="App">
-            <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <p>
-                Edit <code>src/App.js</code> and save to reload.
-              </p>
-              <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Learn React
-              </a>
-            </header>
-          </div>
-        </Route>
-        <Route path="/vacantes">VACANTES</Route>
-        <Route path="/tramites">TRAMITES DE PRACTICAS PROFESIONALES</Route>
-        <Route path="/btfq">EVENTOS DE BTFQ</Route>
-        <Route path="/registro">REGISTRO</Route>
-        <Route path="/info">INFORMACION DEL CORREDOR LABORAL</Route>
-        <Route path="/taller">
-          QUIERO LLEVAR UN TALLER/ACTIVIDAD/WEBINAR A LA FAC
-        </Route>
-        <Route path="/contacto">
-          <h2 align="center">Contacto</h2>
-          <p align="center">
-            Para cualquier duda que tengas con respecto a la Bolsa de Trabajo y
-            Prácticas Profesionales puedes dirigirte con:
-          </p>
-          <p align="center">Maestro Javier Olguin Huerta, Encargada de BTYPP</p>
-          <p align="center">bolsatradebajofq@unam.mx</p>
-          <p align="center">Teléfono: 55 55 55 55 55</p>
-        </Route>
-        <Route path="/acerca">Acerca de nosotros</Route>
+      <Route exact path="/vacantes"> VACANTES </Route>
+      <Route exact path="/login"> LOGIN </Route>
+      <Route exact path="/admin" render={AdminLogin} />
+      <Route exact path="/login_postulante" component={LoginPostulante} />
+      <Route exact path="/vacantes">VACANTES</Route>
+      <Route exact path="/tramites">TRAMITES DE PRACTICAS PROFESIONALES</Route>
+      <Route exact path="/btfq">EVENTOS DE BTFQ</Route>
+      <Route exact path="/registro">REGISTRO</Route>
+      <Route exact path="/info">INFORMACION DEL CORREDOR LABORAL</Route>
+      <Route exact path="/taller"> QUIERO LLEVAR UN TALLER/ACTIVIDAD/WEBINAR A LA FAC </Route>
+      <Route exact path="/contacto" component={Contacto} />
+      <Route exact path="/acerca" component={AcercaDe} />
     </Switch>
   );
-}
+};
 
 export default Router;

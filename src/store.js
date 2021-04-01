@@ -11,7 +11,7 @@ const state = {
   usuario2: [],
 }
 
-// Reducers
+// Reducer
 function stateReducer (estado = state, action) {
   switch (action.type) {
     case 'GUARDA_DATOS_LOGIN':

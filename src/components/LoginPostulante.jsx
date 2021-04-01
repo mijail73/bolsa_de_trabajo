@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Paper, Typography, FormControl, TextField, Button } from '@material-ui/core/';
 import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { validaLogin, obtieneReglas } from './../redux/store';
+import { validaLogin, obtieneReglas } from '../store';
 import BarraProgreso from './UI/BarraProgreso';
 import Alerta from './UI/Alerta';
 
