@@ -1,6 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import CallIcon from '@material-ui/icons/Call';
+import EmailIcon from '@material-ui/icons/Email';
+import PersonIcon from '@material-ui/icons/Person';
 import TopHeader from './components/UI/Header/TopHeader';
 import NavBar from './components/UI/Header/NavBar';
 import Footer from './components/UI/Footer/Footer';
@@ -10,7 +13,7 @@ import LoginUsuario from './components/LoginUsuario';
 import LoginPostulante from './components/LoginPostulante';
 
 // Redux
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import store from './redux/store';
 
 function App() {
@@ -19,15 +22,9 @@ function App() {
       <TopHeader />
       <NavBar />
       <Switch>
-        <Route path="/registro_externos">
-          EXTERNOS
-        </Route>
-        <Route path="/vacantes">
-          VACANTES
-        </Route>
-        <Route path="/login">
-          LOGIN
-        </Route>
+        <Route path="/registro_externos">EXTERNOS</Route>
+        <Route path="/vacantes">VACANTES</Route>
+        <Route path="/login">LOGIN</Route>
         <Route path="/login_usuario">
           <Provider store={store}>
             <LoginUsuario></LoginUsuario>
@@ -65,16 +62,50 @@ function App() {
           QUIERO LLEVAR UN TALLER/ACTIVIDAD/WEBINAR A LA FAC
         </Route>
         <Route path="/contacto">
-          <h2 align="center">Contacto</h2>
-          <p align="center">
-            Para cualquier duda que tengas con respecto a la Bolsa de Trabajo y
-            Prácticas Profesionales puedes dirigirte con:
-          </p>
-          <p align="center">Maestro Javier Olguin Huerta, Encargada de BTYPP</p>
-          <p align="center">bolsatradebajofq@unam.mx</p>
-          <p align="center">Teléfono: 55 55 55 55 55</p>
+          <section claas="Contacto">
+            <div class="Contacto-info">
+              <h1>Contacto</h1>
+            </div>
+            <div>
+              <p class="Descripcion-info">
+                Para cualquier duda que tengas con respecto a la Bolsa de
+                Trabajo y Prácticas Profesionales puedes dirigirte con:
+              </p>
+            </div>
+            <div class="Datos-info">
+              <PersonIcon></PersonIcon>
+              <strong> Nombre</strong>
+              <p class="Combo-info">
+                Maestro Javier Olguin Huerta, Encargada de BTYPP
+              </p>
+              <br />
+              <EmailIcon /> <strong> Correo</strong>
+              <p class="Combo-info">bolsatradebajofq@unam.mx</p>
+              <br />
+              <CallIcon></CallIcon>
+              <strong> Teléfono</strong>
+              <p class="Combo-info">55 55 55 55 55</p>
+            </div>
+          </section>
         </Route>
-        <Route path="/acerca">Acerca de nosotros</Route>
+        <Route path="/acerca">
+          <h3>¿Quiénes somos?</h3>
+          <p>
+            BTFQ es el departamento de FQ encargado de generar puentes entre la
+            industria química en México y los alumnos y egresados de esta
+            facultad para ...
+          </p>
+          <h3>Misión</h3>
+          <p>
+            Ser un referente de profesionalismo e innovación entre los mismos
+            departamentos de toda la UNAM
+          </p>
+          <h3>Visión</h3>
+          <p>
+            Adecuar nuestra presencia a los medios modernos decomunicación para
+            ganar aceptación en el nicho de potenciales usuarios dentro de la FQ
+          </p>
+        </Route>
       </Switch>
       <Footer />
     </BrowserRouter>

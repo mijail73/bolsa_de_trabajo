@@ -5,12 +5,11 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 
 const Stylefooter = styled.div`
-  margin-top: 1rem;
-  background-color: rgb(192, 192, 192, 0.4);
+  background-color: rgb(238, 238, 238);
   position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
+  height: 1.071rem;
 `;
 
 function Foo() {
