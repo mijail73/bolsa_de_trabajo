@@ -132,7 +132,7 @@ const LoginUsuario = () => {
                 helperText={field.user.label}
               />
               <Button variant="contained" color="primary" onClick={validaLoginUsuario}> Acceder </Button>
-              <Button variant="text" color="primary" onClick={() => history.push("/registro_externos")}> 
+              <Button variant="text" color="primary" onClick={() => history.push("/registro")}> 
                 Registrarme como postulante externo 
               </Button>
             </FormControl>

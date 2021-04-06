@@ -3,12 +3,11 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 
 const token = '3e16fcdf4daa4d6d4f938e7dc9453c2b2026b1662681f214e6c5d6a3ab5f5443';
-const baseURL = process.env.NODE_ENV === 'development' ? 'http://132.248.103.86/bolsa_de_trabajo/services/' : 'https://proyectoanual.quimica.unam.mx/services';
+const baseURL = process.env.NODE_ENV === 'development' ? 'http://132.248.103.86/bolsa_de_trabajo/services/' : 'https://proyectoanual.quimica.unam.mx/services/';
 
 // State
 const state = {
   usuario: [],
-  usuario2: [],
 }
 
 // Reducer
@@ -25,6 +24,19 @@ function stateReducer (estado = state, action) {
 export const validaLogin = (data) => (dispatch) => {
     return new Promise ((resolve, reject) => {
       axios.post(baseURL + 'autenticacion.php', data, { headers: { BTKey: token }})
+      .then (result => {
+        if (result.data.replyCode === 200 && result.data.data.length > 0) {
+          dispatch({ type: 'GUARDA_DATOS_LOGIN', payload: result.data.data });
+        }
+        resolve(result.data);
+      }).catch (error => {
+        reject(error);
+      });
+    });
+};
+export const registraPostulante = (data) => (dispatch) => {
+    return new Promise ((resolve, reject) => {
+      axios.post(baseURL + 'registraPostulante.php', data, { headers: { BTKey: token }})
       .then (result => {
         if (result.data.replyCode === 200 && result.data.data.length > 0) {
           dispatch({ type: 'GUARDA_DATOS_LOGIN', payload: result.data.data });

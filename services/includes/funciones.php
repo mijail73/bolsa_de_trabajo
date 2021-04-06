@@ -84,16 +84,42 @@
     return $result->fetchAll(PDO::FETCH_ASSOC);
   }
   /**
-   * Guarda un alumno en la base de datos mysql
-   * @param  BolsaDeTrabajoDB conexion
-   * @param  string 
+   * Genera un id único de 9 dígitos
+   * @param string n
+   * @param string aP
+   * @param string aM
+   * @param string f
    * @return array
    */
-  function guardaDatosAlumno ($conexionCae, $user) {
-    $query = 'INSERT ';
-    $result = $conexionCae->prepare($query);    
-    $result->execute(['S', '2005', $user]);
-    return $result->fetchAll(PDO::FETCH_ASSOC);
+  function generaIdUsuario ($n, $aP, $aM, $f) {
+    $fa = explode('-', $f);
+    return substr($aP, 0, 1) . substr($aM, 0, 1) . substr($n, 0, 1) . substr($fa[0], 1, 2) . $fa[1] . $fa[2];
+  }
+  /**
+   * Registra a un postulante en la base de datos 
+   * @param  BolsaDeTrabajoDB conexion
+   * @param  data
+   */
+  function registraPostulante ($conexion, $d) {
+    $query = 'INSERT INTO postulante (idPostulante, nombre, correo, telefono, fechaNacimiento, sexo, estado, universidad,
+    facultad, carrera, situacionAcademica, semestre, situacionLaboral, tipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    $result = $conexion->prepare($query);    
+    $result->execute([
+      generaIdUsuario($d['nombre'], $d['apPaterno'], $d['apMaterno'], $d['fechaNacimiento']),
+      $d['apPaterno'] . ' ' . $d['apMaterno'] . ' ' . $d['nombre'],
+      $d['correo'],
+      $d['telefono'],
+      $d['fechaNacimiento'],
+      $d['sexo'],
+      $d['estado'],
+      $d['universidad'],
+      $d['facultad'],
+      $d['carrera'],
+      $d['situacionAcademica'],
+      $d['semestre'],
+      $d['situacionLaboral'],
+      $d['tipo'],
+    ]);
   }
 ?>
 
