@@ -30,7 +30,7 @@ function MyNavLink(props) {
       to={props.ruta}
       activeStyle={{
         color: '#ffff',
-        background: '#49d049',
+        background: '#29a329',
       }}
     >
       <TextoeIcono>
