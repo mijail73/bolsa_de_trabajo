@@ -18,6 +18,10 @@ const HeaderFondoAzul = styled.div`
   font-size: 18px;
   overflow: hidden;
   font-family: 'Trebuchet MS', sans-serif;
+  img {
+    pointer-events: none;
+    height: 145px;
+  }
   @media screen and (max-width: 500px) {
     padding: 0px;
     font-size: 11px;
@@ -39,6 +43,9 @@ const HeaderFondoAzul = styled.div`
     h1 {
       margin-top: 0px;
     }
+    img {
+      height: 65px;
+    }
   }
   @media screen and (min-width: 631px) and (max-width: 930px) {
     font-size: 0.8rem;
@@ -48,12 +55,16 @@ const HeaderFondoAzul = styled.div`
 function TopHeader() {
   return (
     <HeaderFondoAzul>
-      <img src={quimica} alt="" />
+      <a href="https://quimica.unam.mx/" target="_blank" rel="noreferrer">
+        <img src={quimica} alt="" />
+      </a>
       <div>
         <h1>FACULTAD DE QUÍMICA</h1>
         <h2>BOLSA DE TRABAJO Y PRÁCTICAS PROFESIONALES</h2>
       </div>
-      <img src={unam} alt="" />
+      <a href="https://quimica.unam.mx/" target="_blank" rel="noreferrer">
+        <img src={unam} alt="" />
+      </a>
     </HeaderFondoAzul>
   );
 }
