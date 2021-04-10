@@ -13,7 +13,6 @@ code {
 }
 
 /* Sirve para tener el footer hasta abajo del contenido de la pagina */
-#page-container-footer-hasta-abajo {
-  position: relative;
-  min-height: 100vh;
+#root {
+  height: calc(100% - 60px);
 }
