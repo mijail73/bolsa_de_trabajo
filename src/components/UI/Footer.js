@@ -6,15 +6,11 @@ import Link from '@material-ui/core/Link';
 
 const Stylefooter = styled.div`
   background-color: rgb(238, 238, 238);
-  position:relative;
-  left:0;
-  bottom:0;
-  right:0;
-  z-index: 499;
   height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 `;
 
 function Footer() {

@@ -13,6 +13,22 @@ code {
 }
 
 /* Sirve para tener el footer hasta abajo del contenido de la pagina */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
 #root {
-  height: calc(100% - 60px);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content-arriba-del-footer {
+  flex: 1 0 auto;
 }
