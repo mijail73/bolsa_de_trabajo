@@ -6,13 +6,12 @@ import Link from '@material-ui/core/Link';
 
 const Stylefooter = styled.div`
   background-color: rgb(238, 238, 238);
-  position: fixed;
-  bottom: 0;
   width: 100%;
-  height: 1.071rem;
+  bottom: 0;
+  position: absolute;
 `;
 
-function Foo() {
+function Footer() {
   return (
     <Stylefooter>
       <footer>
@@ -36,4 +35,4 @@ function Foo() {
     </Stylefooter>
   );
 }
-export default Foo;
+export default Footer;

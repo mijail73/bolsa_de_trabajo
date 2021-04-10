@@ -10,10 +10,12 @@ import store from './store';
 function App() {
   return (
     <BrowserRouter>
-      <TopHeader />
-      <NavBar />
-      <Provider store={store}> <Router/> </Provider>
-      <Footer />
+      <div id="page-container-footer-hasta-abajo">
+        <TopHeader />
+        <NavBar />
+        <Provider store={store}> <Router/> </Provider>
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 };
