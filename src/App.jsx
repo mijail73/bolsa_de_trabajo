@@ -10,10 +10,12 @@ import store from './store';
 function App() {
   return (
     <BrowserRouter>
-      <TopHeader />
-      <NavBar />
-      <Provider store={store}> <Router/> </Provider>
-      <Footer />
+      <div className="content-arriba-del-footer">
+        <TopHeader />
+        <NavBar />
+        <Provider store={store}> <Router/> </Provider>
+      </div>
+      <Footer className="footer"/>
     </BrowserRouter>
   );
 };
