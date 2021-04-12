@@ -47,6 +47,19 @@ export const registraPostulante = (data) => (dispatch) => {
       });
     });
 };
+export const inscribeEmpleador = (data) => (dispatch) => {
+    return new Promise ((resolve, reject) => {
+      axios.post(baseURL + 'inscribeEmpleador.php', data, { headers: { BTKey: token }})
+      .then (result => {
+        if (result.data.replyCode === 200 && result.data.data.length > 0) {
+          dispatch({ type: 'GUARDA_DATOS_LOGIN', payload: result.data.data });
+        }
+        resolve(result.data);
+      }).catch (error => {
+        reject(error);
+      });
+    });
+};
 
 export const obtieneReglas = () => () => {
   return {
@@ -54,6 +67,7 @@ export const obtieneReglas = () => () => {
     email: (v) => /.+@.+\..+/.test(v) || 'Escribe un correo electrónico válido',
     cuenta: (v) => (/[0-9]+/.test(v) && v.length === 9) || 'Escribe un número de cuenta válido',
     cuentaEmail: (v) => ( /.+@.+\..+/.test(v) || (/[0-9]+/.test(v) && v.length === 9)) || 'Escribe un número de cuenta o correo válido',
+    celular: (v) => (/^([0-9])+$/.test(v) && v.length === 10) || 'Ingresa un número telefónico válido',
   }
 };
 

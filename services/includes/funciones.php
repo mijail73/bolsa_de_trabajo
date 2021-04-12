@@ -121,6 +121,47 @@
       $d['tipo'],
     ]);
   }
+    /**
+   * Genera un id único de 9 dígitos
+   * @param string n
+   * @param string c
+   * @param string p 
+   * @return array
+   */
+  function generaIdEmpleador ($n, $c) {
+    $na = explode(' ', $n);
+    return substr($na[0], 0, 3) . substr($na[1], 0, 3) . substr($c, 0, 3);
+  }
+    /**
+   * Incribe a un empleador en la base de datos 
+   * @param  BolsaDeTrabajoDB conexion
+   * @param  data
+   */
+  function inscribeEmpleador ($conexion, $d) {
+    $query = 'INSERT INTO empleador (idEmpleador, nombreEmpleador, correoEmpleador, puestoEmpleador, telefonoEmpleador, extEmpleador, celularEmpleador, nombreEmpresa,
+    direccionEmpresa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    $result = $conexion->prepare($query);    
+    $idEmpleador = generaIdEmpleador($d['nombre'], $d['correo']);
+    $result->execute([
+      $idEmpleador,
+      $d['nombre'],
+      $d['correo'],
+      $d['puesto'],
+      $d['telOficina'],
+      $d['extension'],
+      $d['celular'],
+      $d['empresa'],
+      $d['dirOficinaCentral'],
+    ]);
+  }
+
+  /*include_once("conexion.php");
+  $bolsaDB = new BolsaDeTrabajoDB();
+  $conexion = $bolsaDB->connect();
+  $dat = '{"nombre":"Martin Carmona","correo":"hola@com.com","puesto":"Supervisor","telOficina":1234567899,"extension":12345,"celular":1234123412,"empresa":"jumex","dirOficinaCentral":"otilio montaño"}';
+  $d= json_decode($dat, true);
+  inscribeEmpleador($conexion, $d);
+  echo generaIdEmpleador("Martin Carmona", "mcarmonam@cienicas.unam.mx");*/
 ?>
 
 
