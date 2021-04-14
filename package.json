@@ -10,7 +10,14 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
+<<<<<<< HEAD
+=======
+    "bootstrap": "^4.6.0",
+    "cors": "^2.8.5",
+    "date-fns": "^2.19.0",
+>>>>>>> ead804173abd4e59e1ec082afbd51035c4825773
     "react": "^17.0.2",
+    "react-bootstrap": "^1.5.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
