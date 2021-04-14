@@ -12,6 +12,7 @@ import AcercaDe from './components/AcercaDe';
 import RegistroPostulante from './components/RegistroPostulante';
 import InscripcionEmpleador from './components/InscripcionEmpleador';
 import Vacantes from './components/Vacantes';
+import Prueba from './components/Prueba';
 
 const Router = () => {
   const usuario = useSelector(store => store.usuario);
@@ -34,6 +35,7 @@ const Router = () => {
       <Route exact path="/taller"> QUIERO LLEVAR UN TALLER/ACTIVIDAD/WEBINAR A LA FAC </Route>
       <Route exact path="/contacto" component={Contacto} />
       <Route exact path="/acerca" component={AcercaDe} />
+      <Route exact path="/prueba" component={Prueba} />
     </Switch>
   );
 };

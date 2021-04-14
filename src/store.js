@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 
 const token = '3e16fcdf4daa4d6d4f938e7dc9453c2b2026b1662681f214e6c5d6a3ab5f5443';
-const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost/services/bolsa_de_trabajo/' : 'http://132.248.103.86/services/bolsa_de_trabajo/';
+const baseURL = process.env.NODE_ENV === 'development' ? 'http://132.248.103.86/services/bolsa_de_trabajo/' : 'https://api.quimica.unam.mx/bolsa_de_trabajo/';
 
 // State
 const state = {
