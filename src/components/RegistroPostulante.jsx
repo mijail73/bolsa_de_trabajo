@@ -39,7 +39,9 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
-  
+  formControl: {
+    margin: theme.spacing(1),
+  }
 }));
 
 const RegistroPostulante = () => {
@@ -161,6 +163,9 @@ const RegistroPostulante = () => {
   const changeField = (e) => {
     manageErrors(e.target.value, e.target.id);
   };
+  // const changeSelect = (e) => {
+  //   manageErrors(e.target.value, e.target.name);
+  // };
 
   const formularioValido = () => {
     let campos = Object.entries(field).map(a => a[0]);
@@ -276,7 +281,7 @@ const RegistroPostulante = () => {
 
               <Grid container className={classes.row} spacing={1}> {/** ROW */}
                 <Grid item md={4} sm={10} xs={12} >
-                  <TextField
+                  {/* <TextField
                     className={classes.fieldText}
                     id="fechaNacimiento"
                     label="Fecha de nacimiento"
@@ -286,6 +291,22 @@ const RegistroPostulante = () => {
                     error={field.fechaNacimiento.error}
                     size="small"
                     helperText={field.fechaNacimiento.label}
+                  /> */}
+
+                  <TextField
+                    className={classes.fieldText}
+                    id="fechaNacimiento"
+                    label="Fecha de nacimiento"
+                    variant="outlined"
+                    type="date"
+                    value={field.fechaNacimiento.value}
+                    onChange={changeField}
+                    error={field.fechaNacimiento.error}
+                    size="small"
+                    helperText={field.fechaNacimiento.label}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                   />
                 </Grid>
                 <Grid item md={4} sm={10} xs={12}>
@@ -300,6 +321,21 @@ const RegistroPostulante = () => {
                     size="small"
                     helperText={field.sexo.label}
                   />
+                  {/* <FormControl className={classes.formControl, classes.fieldText}>
+                    <InputLabel htmlFor="sexo">Sexo</InputLabel>
+                    <Select
+                      name="sexo"
+                      label="Sexo"
+                      variant="outlined"
+                      value={field.sexo.value}
+                      onChange={changeSelect}
+                      error={field.sexo.error}
+                    >
+                      <MenuItem value={10}>Masculino</MenuItem>
+                      <MenuItem value={20}>Femenino</MenuItem>
+                      <MenuItem value={30}>Prefiero no decir</MenuItem>
+                    </Select>
+                  </FormControl> */}
                 </Grid>
                 <Grid item md={4} sm={10} xs={12}>
                   <TextField
