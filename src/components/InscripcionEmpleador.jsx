@@ -5,7 +5,6 @@ import { Grid, Paper, Typography, TextField, Button, Backdrop, CircularProgress 
 import { useDispatch } from 'react-redux';
 import { inscribeEmpleador, obtieneReglas } from '../store';
 import InfoDialog from './UI/InfoDialog';
-import Alerta from './UI/Alerta';
 
 const useStyles = makeStyles((theme) => ({
   rootDiv: {
@@ -178,7 +177,6 @@ const InscripcionEmpleador = () => {
             <Typography variant="subtitle1" gutterBottom>
               Completa los campos solicitados para darte de alta como empleador
             </Typography>
-            <Alerta type="error" text={vars.alerta.text} activate={vars.alerta.active} ></Alerta>
             
             <form>
               <Grid container className={classes.row} spacing={1}> {/** ROW */}

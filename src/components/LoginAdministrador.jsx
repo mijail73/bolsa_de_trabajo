@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { validaLogin, obtieneReglas } from '../store';
 import BarraProgreso from './UI/BarraProgreso';
-import Alerta from './UI/Alerta';
 
 const useStyles = makeStyles((theme) => ({
   rootDiv: {
@@ -115,7 +114,6 @@ const LoginAdmin = () => {
               <Typography gutterBottom variant="h6" component="h6">
                 Iniciar Sesión
               </Typography>
-              <Alerta type="error" text={field.alerta.text} activate={field.alerta.active} ></Alerta>
               <TextField
                 id="user"
                 label="Usuario"

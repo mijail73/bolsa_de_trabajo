@@ -1,6 +1,7 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import f from './functions';
 
 const token = '3e16fcdf4daa4d6d4f938e7dc9453c2b2026b1662681f214e6c5d6a3ab5f5443';
 const baseURL = process.env.NODE_ENV === 'development' ? 'http://132.248.103.86/services/bolsa_de_trabajo/' : 'https://api.quimica.unam.mx/bolsa_de_trabajo/';
@@ -38,7 +39,7 @@ export const registraPostulante = (data) => (dispatch) => {
     return new Promise ((resolve, reject) => {
       axios.post(baseURL + 'registraPostulante.php', data, { headers: { BTKey: token }})
       .then (result => {
-        if (result.data.replyCode === 200 && result.data.data.length > 0) {
+        if (result.data.replyCode === 200 && f.arrayDefinido(result.data.data)) {
           dispatch({ type: 'GUARDA_DATOS_LOGIN', payload: result.data.data });
         }
         resolve(result.data);

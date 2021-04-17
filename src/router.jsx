@@ -22,14 +22,13 @@ const Router = () => {
   return (
     <Switch>
       <Route exact path="/" component={Inicio} />
-      <Route exact path="/registro_externos"> EXTERNOS </Route>
       <Route exact path="/vacantes"> <Vacantes /></Route>
       <Route exact path="/login"> LOGIN </Route>
       <Route exact path="/admin" render={AdminLogin} />
       <Route exact path="/login_postulante" component={LoginPostulante} />
       <Route exact path="/tramites">TRAMITES DE PRACTICAS PROFESIONALES</Route>
       <Route exact path="/btfq">EVENTOS DE BTFQ</Route>
-      <Route exact path="/registro" component={RegistroPostulante} />
+      <Route exact path="/registro_postulante" component={RegistroPostulante} />
       <Route exact path="/inscripcion" component={InscripcionEmpleador} />
       <Route exact path="/info">INFORMACION DEL CORREDOR LABORAL</Route>
       <Route exact path="/taller"> QUIERO LLEVAR UN TALLER/ACTIVIDAD/WEBINAR A LA FAC </Route>

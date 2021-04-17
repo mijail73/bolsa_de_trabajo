@@ -1,146 +1,120 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Paper, Typography, FormControl, TextField, Button } from '@material-ui/core/';
-import { useHistory } from "react-router-dom";
+import React from 'react'
+import TextField from './UI/TextField';
+import AlertaError from './UI/AlertaError';
+import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
+import { useHistory, Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { validaLogin, obtieneReglas } from '../store';
-import BarraProgreso from './UI/BarraProgreso';
-import Alerta from './UI/Alerta';
+import { validaLogin } from '../store';
+import f from './../functions';
 
-const useStyles = makeStyles((theme) => ({
-  rootDiv: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: "center",
-  },
-  gridContainer: {
-    flexGrow: 1,
-    textAlign: 'center',
-    color: theme.palette.text.secondary
-  },
-  paper: {
-    color: theme.palette.text.secondary,
-    marginTop: 30,
-    paddingBottom: theme.spacing(2)
-  },
-  formulario: {
-    '& > *': {
-      margin: theme.spacing(1)
-    },
-    width: '80%'
-  },
-  card: {
-    width: 400,
-    justifyContent: "center",
-    backgroundColor: "#fAfAfA",
-  },
-  box: {
-    margin: 50,
-  },
-  button: {
-    width: '43ch',
-  },
-  bar: {
-    transition: 'none'
-  },
-}));
 
-const LoginUsuario = () => {
-  const classes = useStyles();
+const Prueba = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const reglas = dispatch(obtieneReglas());
+  const rules = f.reglas();
   const [field, setField] = React.useState({
     user: {
+      id: 'user',
+      type: 'text',
+      label: 'Usuario',
+      placeholder: 'Número de cuenta o correo',
       value: '',
+      rules: [rules.required, rules.cuentaEmail],
       error: false,
-      label: '',
-      rules: [reglas.required, reglas.cuentaEmail]
+      labelError: ''
     },
-    progress: false,
-    alerta: {
-      active: false,
-      text: ''
+    pass: {
+      id: 'pass',
+      type: 'password',
+      label: 'Contraseña',
+      placeholder: '*************',
+      value: '',
+      rules: [rules.required],
+      error: false,
+      labelError: ''
     },
   });
-  
-  const manageErrors = (value) => {
-    const rules = field.user.rules;
-    if (rules.length === 0) {
-      setField({...field, user: {...field.user, value: value }});
-      return;
-    }
-    for (let r of rules) {
+  const [alerta, setAlerta] = React.useState({
+    show: false,
+    text: 'Usuario o contraseña incorrectos',
+    type: 'danger'
+  });
+
+  const handleChange = (id, value, error, labelError) => {
+    setField({...field, [id]: {...field[id], value: value, error: error, labelError: labelError }});
+  };
+
+  const validaReglas = (element, value) => {
+    let retorno = field[element];
+    const reglas = f.definido(retorno.rules) ? retorno.rules : [];
+    for (let r of reglas) {
       let result = r(value);
-      if (typeof result === 'string') {
-        setField({...field, user: {...field.user, error: true, value: value, label: result}});
-        break;
-      } 
-      setField({...field, user: {...field.user, error: false, value: value, label: ''}});
+      if (typeof result === 'string') { 
+        retorno = {...retorno, error: true, labelError: result};
+        return retorno;
+      }
     }
+    retorno = {...retorno, error: false, labelError: ''};
+    return retorno;
   };
 
-  const changeField = (e) => {
-    manageErrors(e.target.value);
+  const isValid = (form) => {
+    let finalObj = {};
+    for (let f of form) {
+      if (f.localName !== 'button') {
+        finalObj = {...finalObj, [f.id]: validaReglas(f.id, f.value)};
+      }
+    }
+    setField(finalObj);
+    return !Object.entries(finalObj).map(o => o[1].error).includes(true);
   };
 
-  const formularioValido = () => {
-    manageErrors(field.user.value, 'user');
-    return (field.user.error || field.user.value === '') ? false : true;
-  }
-
-  // const usuario = useSelector(store => store.usuario);
-  // console.log('Usuario', usuario);
-
-  const validaLoginUsuario = async () => {
-    if (formularioValido()) {
-      setField({...field, progress: true, alerta: {active: false, text: ''} });
+  const validaFormulario = async (e) => {
+    e.preventDefault();
+    if(isValid(e.currentTarget)) {
+      setAlerta({...alerta, show: false});
       let form = new FormData();
-      form.append('data', JSON.stringify({ user: field.user.value, pass: 'pass', type: 'postulante' }));
+      form.append('data', JSON.stringify({ user: field.user.value, pass: field.pass.value, type: 'postulante' }));
       const result = await dispatch(validaLogin(form));
-      setTimeout(() => {
-        setField({...field, progress: false});
-        if (result.replyCode === 200 && result.data.length > 0) history.push("/vacantes");
-        else setField({...field, alerta: {active: true, text: result.replyText}});
-      }, 1500);
+      if (result.replyCode === 200 && result.data.length > 0) history.push("/vacantes");
+      else setAlerta({...alerta, show: true, text: result.replyText});
     }
-  }
+  };
 
   return (
-    <div className={classes.rootDiv}>
-      <Grid container className={classes.gridContainer} spacing={1} justify="center"> {/** ROW */}
-        <Grid item lg={6} md={6} sm={9} xs={12} className={classes.gridRow}>
-          <Paper className={classes.paper}>
-            <BarraProgreso activate={field.progress}></BarraProgreso>
-            <Typography variant="h4" gutterBottom className={classes.titulo}> Búsqueda de vacantes </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              Si eres parte de la comunidad FQ inicia sesión con tu número de cuenta.
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              ¿No eres comunidad FQ? Inicia sesión con tu correo electrónico
-            </Typography>
-            <FormControl className={classes.formulario}>
-              <Alerta type="error" text={field.alerta.text} activate={field.alerta.active} ></Alerta>
-              <TextField
-                id="outlined-basic"
-                label="Número de cuenta o correo"
-                variant="outlined"
-                value={field.user.value}
-                onChange={changeField}
-                error={field.user.error}
-                size="small"
-                helperText={field.user.label}
-              />
-              <Button variant="contained" color="primary" onClick={validaLoginUsuario}> Acceder </Button>
-              <Button variant="text" color="primary" onClick={() => history.push("/registro")}> 
-                Registrarme como postulante externo 
-              </Button>
-            </FormControl>
-          </Paper>
-        </Grid>
-      </Grid>
-    </div>
-  )
+    <Container className="mt-4 mb-4">
+      <Row className="justify-content-center">
+        <Col lg={6} md={8} sm={10} xs={12}>
+          <Card bg="light">
+            <Card.Body>
+              <Card.Title className="text-center">Búsqueda de vacantes</Card.Title>
+              <Card.Text className="text-center text-muted">
+                Si eres parte de la comunidad FQ inicia sesión con tu número de cuenta.<br></br>
+                ¿No eres comunidad FQ? Inicia sesión con tu correo electrónico.
+              </Card.Text>
+              <AlertaError activate={alerta.show} type={alerta.type} text={alerta.text}/>
+              <Form onSubmit={validaFormulario}>
+                <TextField 
+                  element={field.user}
+                  onChange={handleChange}
+                />
+                <TextField 
+                  element={field.pass}
+                  onChange={handleChange}
+                />
+                <Button variant="primary" type="submit" >
+                  Iniciar sesión
+                </Button>
+              </Form>
+              <div className="mt-4 text-center">
+                ¿No estás registrado? Regístrate como postulante externo <Link to="/registro_postulante">aquí</Link>.
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
 };
 
-export default LoginUsuario;
+export default Prueba;
