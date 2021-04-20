@@ -4,10 +4,8 @@ import f from './../../functions';
 
 const Select = (props) => {
   const { element, onChange } = props;
-  const [value, setValue] = React.useState(element.value);
 
   const checkRules = (value) => {
-    setValue(value);
     if (!f.definido(element.rules)) {
       onChange(element.id, value, false, ''); 
       return;
@@ -28,12 +26,12 @@ const Select = (props) => {
 
   return (
     <Form.Group controlId={element.id}>
-      <Form.Label>{element.label}</Form.Label>
+      <Form.Label>{element.label} {element.requerido ? <span style={{color: 'red'}}>*</span> : null}</Form.Label>
       <Form.Control 
         as="select" 
         custom 
         onChange={handleChange} 
-        value={value} 
+        value={element.value} 
         isInvalid={element.error}
         disabled={element.disabled}
         size={element.size}

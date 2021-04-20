@@ -4,11 +4,9 @@ import f from './../../functions';
 
 const TextField = (props) => {
   const { element, onChange } = props;
-  const [value, setValue] = React.useState(element.value);
-  
+
   const checkRules = (value) => {
-    setValue(value);
-    if (!f.definido(element.rules)) {
+    if (!f.arrayDefinido(element.rules)) {
       onChange(element.id, value, false, ''); 
       return;
     }
@@ -28,16 +26,18 @@ const TextField = (props) => {
 
   return (
     <Form.Group controlId={element.id}>
-      <Form.Label>{element.label}</Form.Label>
+      <Form.Label>{element.label} {element.requerido ? <span style={{color: 'red'}}>*</span> : null}</Form.Label>
       <Form.Control 
         type={element.type} 
         placeholder={element.placeholder} 
         onChange={handleChange} 
-        value={value} 
+        value={element.value} 
         isInvalid={element.error}
         disabled={element.disabled}
         size={element.size}
         readOnly={element.readonly}
+        as={element.component}
+        rows={3}
       />
       <Form.Control.Feedback type="invalid">{element.labelError}</Form.Control.Feedback>
     </Form.Group>

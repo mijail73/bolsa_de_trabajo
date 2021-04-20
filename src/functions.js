@@ -15,6 +15,7 @@ const f = {
       cuenta: (v) => (/[0-9]+/.test(v) && v.length === 9) || 'Escribe un número de cuenta válido',
       cuentaEmail: (v) => ( /.+@.+\..+/.test(v) || (/[0-9]+/.test(v) && v.length === 9)) || 'Escribe un número de cuenta o correo válido',
       phone: (v) => (/^([0-9])+$/.test(v) && v.length === 10) || 'Ingresa un número telefónico válido',
+      number: (v) => (!v || /^([0-9])+$/.test(v)) || 'Ingresa un número entero válido',
     }
   }
 };

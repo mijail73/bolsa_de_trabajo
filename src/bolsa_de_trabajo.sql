@@ -34,7 +34,7 @@ CREATE TABLE empleador (
     correoEmpleador VARCHAR(50) NOT NULL,
     puestoEmpleador VARCHAR(100) NOT NULL,
     telefonoEmpleador CHAR(10) NOT NULL,
-    extEmpleador VARCHAR(5) NOT NULL,
+    extEmpleador VARCHAR(5) NULL,
     celularEmpleador CHAR(10) NOT NULL,
     passEmpleador VARCHAR(50) NOT NULL,
     nombreEmpresa VARCHAR(100) NOT NULL,
@@ -46,9 +46,9 @@ CREATE TABLE vacante (
     idVacante INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     tipoVacante ENUM('TC', 'MT', 'PP', 'B', 'T') NOT NULL, -- Tiempo completo, medio tiempo, practicas profesionales, becario, trainee.
     nombreVacante VARCHAR(100) NOT NULL,
-    estatusRequerido VARCHAR(30) NOT NULL,
+    estatusAcademico VARCHAR(30) NOT NULL,
     terminoMaterias CHAR(6) NULL,
-    carreras VARCHAR(100) NOT NULL,
+    carreras VARCHAR(30) NOT NULL,
     sexo ENUM('M', 'F', 'X') NOT NULL,
     ingles ENUM('I', 'A', 'X') NOT NULL, -- Intermedio, avanzado, No necesario
     habilidades VARCHAR(300) NOT NULL,
@@ -56,9 +56,9 @@ CREATE TABLE vacante (
     edadMinima CHAR(2) NULL,
     actividades VARCHAR(300) NOT NULL,
     horarioLaboral VARCHAR(50) NOT NULL,
-    zona VARCHAR(50) NOT NULL,
+    zonaTrabajo VARCHAR(50) NOT NULL,
     sueldo VARCHAR(50) NOT NULL,
-    contrato ENUM('D', 'O') NOT NULL, -- Contratación directa, outsoursing
+    tipoContrato ENUM('D', 'O') NOT NULL, -- Contratación directa, outsoursing
     vacantesTotales TINYINT NOT NULL,
     vacantesDisponibles TINYINT NOT NULL,
     estatus ENUM ('P', 'A', 'R') NOT NULL DEFAULT 'P', -- Pendiente, aprobada o rechazada
@@ -67,6 +67,10 @@ CREATE TABLE vacante (
 ) COLLATE utf8_general_ci;
 
 INSERT INTO administrador (user, pass) VALUES ('admin', 'bolsadetrabajo');
+INSERT INTO empleador (nombreEmpleador, correoEmpleador, puestoEmpleador, telefonoEmpleador, extEmpleador, celularEmpleador, 
+passEmpleador, nombreEmpresa, direccionEmpresa, sitioEmpresa) VALUES 
+('Victor 12345', 'victor@gmail.com', 'Coordinador RH', '5612123344', NULL, '5613111617', 'hola12345', 'Empresa1', 'Av. Constitución 123, CDMX',
+'https://google.com.mx');
 -- CREATE USER 'bolsadetrabajo'@localhost IDENTIFIED BY 'b0ls4Tr4b@j0';
 -- GRANT ALL PRIVILEGES ON bolsadetrabajo_db.* TO 'bolsadetrabajo'@'localhost';
 

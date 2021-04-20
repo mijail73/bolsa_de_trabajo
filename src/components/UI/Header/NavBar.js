@@ -134,7 +134,7 @@ function NavBar() {
           </TextoeIcono>
         </SubNavButton>
         <SubNavContentB ref={refB}>
-          <MyNavLink ruta="/registro" nombre="REGISTRAR UNA VACANTE O UNA PRÁCTICA PROFESIONAL" />
+          <MyNavLink ruta="/registro_vacantes" nombre="REGISTRAR UNA VACANTE O UNA PRÁCTICA PROFESIONAL" />
           <MyNavLink ruta="/info" nombre={`INFORMACIÓN DEL CORREDOR LABORAL ${year}`} />
           <MyNavLink ruta="/taller" nombre="QUIERO LLEVAR UN TALLER/ACTIVIDAD/WEBINAR A LA FQ" />
         </SubNavContentB>

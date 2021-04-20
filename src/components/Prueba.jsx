@@ -1,166 +1,40 @@
 import React from 'react'
 import TextField from './UI/TextField';
-import Select from './UI/Select';
-import AlertaError from './UI/AlertaError';
-import DialogInfo from './UI/DialogInfo';
+import AlertaInfo from './UI/AlertaInfo';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { registraPostulante } from '../store';
+import { validaLogin } from '../store';
 import f from './../functions';
-import { Link } from 'react-router-dom';
 
 
-const Prueba = () => {
+const LoginPostulante = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const rules = f.reglas();
   const [field, setField] = React.useState({
-    nombre: {
-      id: 'nombre',
+    user: {
+      id: 'user',
       type: 'text',
-      label: 'Nombre(s)',
-      placeholder: 'Nombre(s)',
+      label: 'Usuario',
+      placeholder: 'Número de cuenta',
       value: '',
-      rules: [rules.required],
+      rules: [rules.required, rules.cuenta],
       error: false,
       labelError: ''
     },
-    apPaterno: {
-      id: 'apPaterno',
+  });
+  const [fieldE, setFieldE] = React.useState({
+    user: {
+      id: 'user',
       type: 'text',
-      label: 'Apellido paterno',
-      placeholder: 'Apellido paterno',
-      value: '',
-      rules: [rules.required],
-      error: false,
-      labelError: ''
-    },
-    apMaterno: {
-      id: 'apMaterno',
-      type: 'text',
-      label: 'Apellido materno',
-      placeholder: 'Apellido materno',
-      value: '',
-      rules: [rules.required],
-      error: false,
-      labelError: ''
-    },
-    fechaNacimiento: {
-      id: 'fechaNacimiento',
-      type: 'date',
-      label: 'Fecha de nacimiento',
-      value: '',
-      min: '2021-04-17',
-      rules: [rules.required],
-      error: false,
-      labelError: ''
-    },
-    sexo: {
-      id: 'sexo',
-      label: 'Sexo',
-      value: '',
-      rules: [rules.required],
-      options: [
-        {id: '', text: 'Selecciona una opción'},
-        {id: 'F', text: 'Femenino'},
-        {id: 'M', text: 'Masculino'},
-        {id: 'X', text: 'Prefiero no decir'},
-      ],
-      error: false,
-      labelError: ''
-    },
-    correo: {
-      id: 'correo',
-      type: 'text',
-      label: 'Correo electrónico',
-      placeholder: 'usuario@ejemplo.com',
+      label: 'Usuario',
+      placeholder: 'Correo electrónico',
       value: '',
       rules: [rules.required, rules.email],
       error: false,
       labelError: ''
     },
-    telefono: {
-      id: 'telefono',
-      type: 'text',
-      label: 'Teléfono',
-      placeholder: '10 dígitos',
-      value: '',
-      rules: [rules.required, rules.phone],
-      error: false,
-      labelError: ''
-    },
-    universidad: {
-      id: 'universidad',
-      type: 'text',
-      label: 'Universidad',
-      placeholder: 'Ej. UNAM',
-      value: '',
-      rules: [rules.required],
-      error: false,
-      labelError: ''
-    },
-    facultad: {
-      id: 'facultad',
-      type: 'text',
-      label: 'Facultad',
-      placeholder: 'Ej. FQ',
-      value: '',
-      rules: [rules.required],
-      error: false,
-      labelError: ''
-    },
-    carrera: {
-      id: 'carrera',
-      type: 'text',
-      label: 'Carrera',
-      placeholder: 'Ej. Ingeniería Química',
-      value: '',
-      rules: [rules.required],
-      error: false,
-      labelError: ''
-    },
-    situacionAcademica: {
-      id: 'situacionAcademica',
-      type: 'text',
-      label: 'Situacion académica',
-      placeholder: 'Ej. Pasante',
-      value: '',
-      rules: [rules.required],
-      error: false,
-      labelError: ''
-    },
-    semestre: {
-      id: 'semestre',
-      type: 'text',
-      label: 'Semestre',
-      placeholder: 'Ej. 2',
-      value: '',
-      rules: [rules.required],
-      error: false,
-      labelError: ''
-    },
-    situacionLaboral: {
-      id: 'situacionLaboral',
-      type: 'text',
-      label: 'Situación laboral',
-      placeholder: 'Ej. Desempleado',
-      value: '',
-      rules: [rules.required],
-      error: false,
-      labelError: ''
-    },
-    estado: {
-      id: 'estado',
-      type: 'text',
-      label: 'Estado de residencia',
-      placeholder: 'Ej. CDMX',
-      value: '',
-      rules: [rules.required],
-      error: false,
-      labelError: ''
-    },
-    
   });
   const [alerta, setAlerta] = React.useState({
     show: false,
@@ -168,19 +42,15 @@ const Prueba = () => {
     type: 'danger'
   });
 
-  const [dialog, setDialog] = React.useState({
-    show: false,
-    title: 'Información',
-    subtitle: 'Registro exitoso',
-    text: 'Te has registrado exitosamente como postulante, ahora puedes consultar las vacantes disponibles.'
-  });
-
   const handleChange = (id, value, error, labelError) => {
     setField({...field, [id]: {...field[id], value: value, error: error, labelError: labelError }});
   };
+  const handleChange2 = (id, value, error, labelError) => {
+    setFieldE({...fieldE, [id]: {...fieldE[id], value: value, error: error, labelError: labelError }});
+  };
 
-  const validaReglas = (element, value) => {
-    let retorno = field[element];
+  const validaReglas = (element, value, type) => {
+    let retorno = type === 'internos' ? field[element] : fieldE[element];
     const reglas = f.definido(retorno.rules) ? retorno.rules : [];
     for (let r of reglas) {
       let result = r(value);
@@ -193,122 +63,94 @@ const Prueba = () => {
     return retorno;
   };
 
-  const createForm = (form) => {
+  const isValid = (form, type) => {
     let finalObj = {};
     for (let f of form) {
       if (f.localName !== 'button') {
-        finalObj = {...finalObj, [f.id]: f.value};
+        finalObj = {...finalObj, [f.id]: validaReglas(f.id, f.value, type)};
       }
     }
-    
-    finalObj = {...finalObj, tipo: 'E'};
-    let formData = new FormData();
-    formData.append('data', JSON.stringify(finalObj));
-    return formData;
-  };
-
-  const isValid = (form) => {
-    let finalObj = {};
-    for (let f of form) {
-      if (f.localName !== 'button') {
-        finalObj = {...finalObj, [f.id]: validaReglas(f.id, f.value)};
-      }
-    }
-    setField(finalObj);
+    if (type === 'internos') setField(finalObj); else setFieldE(finalObj);
     return !Object.entries(finalObj).map(o => o[1].error).includes(true);
   };
 
   const validaFormulario = async (e) => {
     e.preventDefault();
-    if(isValid(e.currentTarget)) {
+    const type = e.currentTarget.id;
+    if(isValid(e.currentTarget, type)) {
       setAlerta({...alerta, show: false});
-      const result = await dispatch(registraPostulante(createForm(e.currentTarget)));
-      if (result.replyCode === 200) setDialog({...dialog, show: true});
-      else setAlerta({...alerta, show: true, text: result.replyCode === 201 ? result.replyText : 'Ocurrió un error inesperado'});
+      let form = new FormData();
+      form.append('data', JSON.stringify({ 
+        user: type === 'internos' ? field.user.value : fieldE.user.value, 
+        type: 'postulante' 
+      }));
+      const result = await dispatch(validaLogin(form));
+      if (result.replyCode === 200 && result.data.length > 0) history.push("/postulante/vacantes");
+      else setAlerta({...alerta, show: true, text: result.replyText});
     }
   };
 
-  const goToVacantes = () => {
-    setDialog({...dialog, show: false});
-    history.push('/vacantes');
-  };
-
   return (
-    <Container fluid className="mt-3 mb-4">
-      <DialogInfo element={dialog} onHide={() => setDialog({...dialog, show: false})} agreeAction={goToVacantes}/>
+    <Container className="mt-4 mb-4" >
       <Row className="justify-content-center">
-        <Col lg={11} md={11} sm={12} xs={12}>
-          <Link to="/login_postulante">Iniciar Sesión</Link>{' / '}<Link to="/registro_postulante">Registro</Link>
+        <Col lg={12} md={12} sm={12} xs={12}>
           <Card bg="light">
             <Card.Body>
-              <Card.Title className="text-center">Registro de postulantes externos</Card.Title>
-              <Card.Text className="text-center">
-                Completa los campos solicitados para darte de alta como postulante.
+              <Card.Title className="text-center">Acceso a Postulantes</Card.Title>
+              <Card.Text className="text-center text-muted">
+                Si eres parte de la comunidad FQ inicia sesión con tu número de cuenta.<br></br>
+                ¿No eres comunidad FQ? Inicia sesión con tu correo electrónico.
               </Card.Text>
-              <AlertaError activate={alerta.show} type={alerta.type} text={alerta.text}/>
-              <Form onSubmit={validaFormulario}>
-                <Form.Row>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.nombre} onChange={handleChange} />
-                  </Col>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.apPaterno} onChange={handleChange} />
-                  </Col>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.apMaterno} onChange={handleChange} />
-                  </Col>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.fechaNacimiento} onChange={handleChange} />
-                  </Col>
-                </Form.Row>
-                <Form.Row>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <Select element={field.sexo} onChange={handleChange}/>
-                  </Col>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.correo} onChange={handleChange} />
-                  </Col>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.telefono} onChange={handleChange} />
-                  </Col>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.universidad} onChange={handleChange} />
-                  </Col>
-                </Form.Row>
-                <Form.Row>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.facultad} onChange={handleChange} />
-                  </Col>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.carrera} onChange={handleChange} />
-                  </Col>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.situacionAcademica} onChange={handleChange} />
-                  </Col>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.semestre} onChange={handleChange} />
-                  </Col>
-                </Form.Row>
-                <Form.Row>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.situacionLaboral} onChange={handleChange} />
-                  </Col>
-                  <Col lg={3} md={6} sm={12} xs={12}>
-                    <TextField element={field.estado} onChange={handleChange} />
-                  </Col>
-                </Form.Row>
+              <AlertaInfo activate={alerta.show} type={alerta.type} text={alerta.text}/>
+              <Row className="mt-4">
+                <Col lg={6} md={6} sm={12} xs={12} className="text-left">
+                  <Card.Text className="text-center text-muted">
+                    Comunidad FQ
+                  </Card.Text>
+                  <Form onSubmit={validaFormulario} id="internos">
+                    <TextField 
+                      element={field.user}
+                      onChange={handleChange}
+                    />
+                    <Button variant="primary" type="submit">
+                      Acceder 
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="ml-1" focusable={false}>
+                        <path  d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                        <path  d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                      </svg>
+                    </Button>
+                  </Form>
+                </Col>
 
-                <Button variant="primary" type="submit" >
-                  Registrarme
-                </Button>
-              </Form>
-              {/* <a href="/registro" >Registrarme como postulante externo</a> */}
+                <Col lg={6} md={6} sm={12} xs={12} className="text-left">
+                  <Card.Text className="text-center text-muted">
+                    Postulantes externos
+                  </Card.Text>
+                  <Form onSubmit={validaFormulario} id="externos">
+                    <TextField 
+                      element={fieldE.user}
+                      onChange={handleChange2}
+                    />
+                    <Button variant="primary" type="submit">
+                      Acceder 
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="ml-1" focusable={false}>
+                        <path  d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                        <path  d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                      </svg>
+                    </Button>
+                  </Form>
+                </Col>
+              </Row>
+              <div className="mt-4 text-center">
+                ¿No estás registrado? Regístrate como postulante externo <Link to="/postulante/registro">aquí</Link>.
+              </div>
             </Card.Body>
           </Card>
         </Col>
       </Row>
+      
     </Container>
   );
 };
 
-export default Prueba;
+export default LoginPostulante;

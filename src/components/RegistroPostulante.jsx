@@ -1,7 +1,7 @@
 import React from 'react'
 import TextField from './UI/TextField';
 import Select from './UI/Select';
-import AlertaError from './UI/AlertaError';
+import AlertaInfo from './UI/AlertaInfo';
 import DialogInfo from './UI/DialogInfo';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
@@ -11,7 +11,7 @@ import f from './../functions';
 import { Link } from 'react-router-dom';
 
 
-const Prueba = () => {
+const RegistroPostulante = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const rules = f.reglas();
@@ -230,7 +230,7 @@ const Prueba = () => {
 
   const goToVacantes = () => {
     setDialog({...dialog, show: false});
-    history.push('/vacantes');
+    history.push('/postulante/vacantes');
   };
 
   return (
@@ -238,14 +238,14 @@ const Prueba = () => {
       <DialogInfo element={dialog} onHide={() => setDialog({...dialog, show: false})} agreeAction={goToVacantes}/>
       <Row className="justify-content-center">
         <Col lg={11} md={11} sm={12} xs={12}>
-          <Link to="/login_postulante">Iniciar Sesión</Link>{' / '}<Link to="/registro_postulante">Registro</Link>
+          <Link to="/postulante">Iniciar Sesión</Link>{' / '}<Link to="/postulante/registro">Registro</Link>
           <Card bg="light">
             <Card.Body>
               <Card.Title className="text-center">Registro de postulantes externos</Card.Title>
               <Card.Text className="text-center text-muted">
                 Completa los campos solicitados para darte de alta como postulante.
               </Card.Text>
-              <AlertaError activate={alerta.show} type={alerta.type} text={alerta.text}/>
+              <AlertaInfo activate={alerta.show} type={alerta.type} text={alerta.text}/>
               <Form onSubmit={validaFormulario}>
                 <Form.Row>
                   <Col lg={3} md={6} sm={12} xs={12}>
@@ -311,4 +311,4 @@ const Prueba = () => {
   );
 };
 
-export default Prueba;
+export default RegistroPostulante;
