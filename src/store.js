@@ -79,6 +79,16 @@ export const registraVacante = (data) => () => {
     });
   });
 };
+export const obtieneVacantesEmpleador = (idEmpleador) => () => {
+  return new Promise ((resolve, reject) => {
+    axios.get('obtieneVacantesEmpleador.php?idEmpleador='+idEmpleador, { headers: { BTKey: token }})
+    .then (result => {
+      resolve(result.data);
+    }).catch (error => {
+      reject(error);
+    });
+  });
+};
 
 export const obtieneReglas = () => () => {
   return {

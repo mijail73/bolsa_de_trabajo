@@ -308,10 +308,11 @@ const RegistroVacante = () => {
               <Card.Text className="text-center text-muted">
                 Completa los campos solicitados para dar de alta una nueva vacante.
               </Card.Text>
+              <AlertaInfo activate={alerta.show} type={alerta.type} text={alerta.text}/>
               <Card.Text className="text-muted">
                 Los campos marcados con <span style={{color: 'red'}}>*</span> son obligatorios.
               </Card.Text>
-              <AlertaInfo activate={alerta.show} type={alerta.type} text={alerta.text}/>
+              
 
               <Form onSubmit={validaFormulario}>
                 <Form.Row>

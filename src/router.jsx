@@ -15,6 +15,7 @@ import InscripcionEmpleador from './components/InscripcionEmpleador';
 import Vacantes from './components/Vacantes';
 import Prueba from './components/Prueba';
 import RegistroVacante from './components/RegistroVacante';
+import VacantesEmpleador from './components/VacantesEmpleador';
 
 const Router = () => {
   const store = useSelector(store => store);
@@ -36,8 +37,8 @@ const Router = () => {
 
       <Route exact path="/empleador" component={LoginEmpleador} />
       <Route exact path="/empleador/inicio" render={EmpleadorLogin}/>
-      <Route exact path="/empleador/ofertas" component={RegistroVacante}/>
-      <Route exact path="/empleador/ofertas/registro" component={RegistroVacante}/>
+      <Route exact path="/empleador/vacantes" component={VacantesEmpleador}/>
+      <Route exact path="/empleador/vacantes/crear" component={RegistroVacante}/>
 
       <Route exact path="/inscripcion" component={InscripcionEmpleador} />
       <Route exact path="/info">INFORMACION DEL CORREDOR LABORAL</Route>
