@@ -70,7 +70,7 @@ const SubNavContentB = styled.div`
 
 const SubNavButton = styled.button`
   font-size: 15px;
-  font-family: 'Trebuchet MS', sans-serif;
+  ${'' /* font-family: 'Trebuchet MS', sans-serif; */}
   font-weight: bold;
   padding: 14px 16px;
   background-color: inherit;

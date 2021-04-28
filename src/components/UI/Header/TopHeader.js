@@ -17,7 +17,7 @@ const HeaderFondoAzul = styled.div`
   color: #fff;
   font-size: 18px;
   overflow: hidden;
-  font-family: 'Trebuchet MS', sans-serif;
+  ${'' /* font-family: 'Trebuchet MS', sans-serif; */}
   img {
     pointer-events: none;
     height: 145px;

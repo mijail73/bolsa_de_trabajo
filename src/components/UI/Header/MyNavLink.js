@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const StyledNavLink = styled(NavLink)`
   float: left;
   font-size: 15px;
-  font-family: 'Trebuchet MS', sans-serif;
+  ${'' /* font-family: 'Trebuchet MS', sans-serif; */}
   font-weight: bold;
   text-aling: center;
   padding: 14px 16px;

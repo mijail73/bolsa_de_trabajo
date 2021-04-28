@@ -6,7 +6,7 @@ import Link from '@material-ui/core/Link';
 
 const Stylefooter = styled.div`
   background-color: rgb(238, 238, 238);
-  height: 60px;
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
