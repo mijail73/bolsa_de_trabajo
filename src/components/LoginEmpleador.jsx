@@ -110,7 +110,7 @@ const LoginEmpleador = () => {
                 </Button>
               </Form>
               <div className="mt-4 text-center">
-                ¿No estás registrado? Regístrate <Link to="/registro_empleador">aquí</Link>.
+                ¿No estás registrado? Regístrate <Link to="/empleador/inscripcion">aquí</Link>.
               </div>
             </Card.Body>
           </Card>

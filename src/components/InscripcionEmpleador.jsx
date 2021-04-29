@@ -1,308 +1,208 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Paper, Typography, TextField, Button, Backdrop, CircularProgress } from '@material-ui/core/';
-//import { useHistory } from "react-router-dom";
+import React from 'react'
+import TextField from './UI/TextField';
+import AlertaInfo from './UI/AlertaInfo';
+import DialogInfo from './UI/DialogInfo';
+import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { inscribeEmpleador, obtieneReglas } from '../store';
-import InfoDialog from './UI/InfoDialog';
-
-const useStyles = makeStyles((theme) => ({
-  rootDiv: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: "center",
-    marginBottom: theme.spacing(5)
-  },
-  gridContainer: {
-    flexGrow: 1,
-    textAlign: 'center',
-    color: theme.palette.text.secondary
-  },
-  paper: {
-    color: theme.palette.text.secondary,
-    marginTop: 30,
-    paddingBottom: theme.spacing(2)
-  },
-  fieldText: {
-    width: '90%',
-  },
-  card: {
-    width: 400,
-    justifyContent: "center",
-    backgroundColor: "#fAfAfA",
-  },
-  row: {
-    marginTop: theme.spacing(2),
-  },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
-  },  
-}));
+import { inscribeEmpleador } from '../store';
+import f from './../functions';
+import { Link } from 'react-router-dom';
 
 const InscripcionEmpleador = () => {
-  const classes = useStyles();
-  //const history = useHistory();
   const dispatch = useDispatch();
-  const reglas = dispatch(obtieneReglas());
+  const rules = f.reglas();
   const [field, setField] = React.useState({
     nombre: {
+      id: 'nombre',
+      type: 'text',
       value: '',
       error: false,
-      label: '',
-      rules: [reglas.required]
+      label: 'Nombre',
+      rules: [rules.required]
     },
     puesto: {
+      id: 'puesto',
+      type: 'text',
       value: '',
       error: false,
-      label: '',
-      rules: [reglas.required]
+      label: 'Puesto',
+      rules: [rules.required]
     },
     empresa: {
+      id: 'empresa',
+      type: 'text',
       value: '',
       error: false,
-      label: '',
-      rules: [reglas.required]
+      label: 'Empresa',
+      rules: [rules.required]
     },
     dirOficinaCentral: {
+      id: 'dirOficinaCentral',
+      type: 'text',
       value: '',
       error: false,
-      label: '',
-      rules: [reglas.required]
+      label: 'Dirección de la oficina central',
+      rules: [rules.required]
     },
     correo: {
+      id: 'correo',
+      type: 'text',
       value: '',
+      placeholder: 'usuario@ejemplo.com',
       error: false,
-      label: '',
-      rules: [reglas.required, reglas.email]
+      label: 'Correo electrónico',
+      rules: [rules.required, rules.email]
     },
     telOficina: {
+      id: 'telOficina',
+      type: 'text',
       value: '',
+      placeholder: '10 dígitos',
       error: false,
-      label: '',
-      rules: [reglas.required, reglas.celular]
+      label: 'Teléfono de la oficina',
+      rules: [rules.required, rules.phone]
     },
     extension: {
+      id: 'extension',
+      type: 'text',
       value: '',
       error: false,
-      label: '',
-      rules: [reglas.required]
+      label: 'Extensión',
+      rules: [rules.required]
     },
     celular: {
+      id: 'celular',
+      type: 'text',
       value: '',
+      placeholder: '10 dígitos',
       error: false,
-      label: '',
-      rules: [reglas.required, reglas.celular]
-    },
-  });
-  const [vars, setVars] = React.useState({
-    dialog: false,
-    progress: false,
-    alerta: {
-      active: false,
-      text: ''
+      label: 'Celular',
+      rules: [rules.required, rules.phone]
     },
   });
 
-  const manageErrors = (value, element) => {
-    const rules = field[element].rules;
-    if (rules.length === 0) {
-      setField({...field, [element]: {...field[element], value: value }});
-      return;
-    }
-    for (let r of rules) {
+  const [alerta, setAlerta] = React.useState({
+    show: false,
+    text: 'Usuario o contraseña incorrectos',
+    type: 'danger'
+  });
+
+  const [dialog, setDialog] = React.useState({
+    show: false,
+    title: 'Información',
+    subtitle: 'Registro exitoso',
+    text: 'Te has registrado exitosamente como postulante, ahora puedes consultar las vacantes disponibles.'
+  });
+
+  const handleChange = (id, value, error, labelError) => {
+    setField({...field, [id]: {...field[id], value: value, error: error, labelError: labelError }});
+  };
+
+  const validaReglas = (element, value) => {
+    let retorno = field[element];
+    const reglas = f.definido(retorno.rules) ? retorno.rules : [];
+    for (let r of reglas) {
       let result = r(value);
-      if (typeof result === 'string') {
-        setField({...field, [element]: {...field[element], error: true, value: value, label: result}});
-        break;
-      } else setField({...field, [element]: {...field[element], error: false, value: value, label: ''}});
-      
+      if (typeof result === 'string') { 
+        retorno = {...retorno, error: true, labelError: result};
+        return retorno;
+      }
     }
+    retorno = {...retorno, error: false, labelError: ''};
+    return retorno;
   };
 
-  const changeField = (e) => {
-    manageErrors(e.target.value, e.target.id);
+  const isValid = (form) => {
+    let finalObj = {};
+    for (let f of form) {
+      if (f.localName !== 'button') {
+        finalObj = {...finalObj, [f.id]: validaReglas(f.id, f.value)};
+      }
+    }
+    setField(finalObj);
+    return !Object.entries(finalObj).map(o => o[1].error).includes(true);
   };
 
-  const formularioValido = () => {
-    let campos = Object.entries(field).map(a => a[0]);
-    for (let f of campos) {
-      manageErrors(field[f].value, f);
-      if (field[f].error || (field[f].value === '' && field[f].rules.length > 0)) return false;
+  const createForm = (form) => {
+    let finalObj = {};
+    for (let f of form) {
+      if (f.localName !== 'button') {
+        finalObj = {...finalObj, [f.id]: f.value};
+      }
     }
-    return true;
-  }
-
-  const creaFormulario = () => {
-    let form = new FormData();
-    form.append('data', JSON.stringify({
-      nombre: field.nombre.value.toUpperCase(),
-      correo: field.correo.value,
-      puesto: field.puesto.value,
-      telOficina: field.telOficina.value,
-      extension: field.extension.value,
-      celular: field.celular.value,
-      empresa: field.empresa.value,
-      dirOficinaCentral: field.dirOficinaCentral.value
-    }));
-    return form;
-  }
-
-  const procesaInscripcionEmpleador = async () => {
-    if (formularioValido()) {
-      setVars({...vars, progress: true, alerta: {active: false, text: ''} });
-      const result = await dispatch(inscribeEmpleador(creaFormulario()));
-      setTimeout(() => {
-        if (result.replyCode === 200) setVars({...vars, dialog: true, progress: false});
-        else setVars({...vars, progress: false, alerta: {active: true, text: 'Ocurrió un error al guardar, intenta más tarde'} });
-      }, 1500);   
+    
+    finalObj = {...finalObj, tipo: 'E'};
+    let formData = new FormData();
+    formData.append('data', JSON.stringify(finalObj));
+    return formData;
+  };
+  
+  const validaFormulario = async (e) => {
+    e.preventDefault();
+    if(isValid(e.currentTarget)) {
+      setAlerta({...alerta, show: false});
+      const result = await dispatch(inscribeEmpleador(createForm(e.currentTarget)));
+      if (result.replyCode === 200) setDialog({...dialog, show: true});
+      else setAlerta({...alerta, show: true, text: result.replyCode === 201 ? result.replyText : 'Ocurrió un error inesperado'});
     }
-  }
+  };
 
   return (
-    <div className={classes.rootDiv}>
-      <Grid container className={classes.gridContainer} spacing={1} justify="center"> {/** ROW */}
-        <Grid item lg={10} md={11} sm={11} xs={11}>
-          <Paper className={classes.paper}>
-            <Backdrop className={classes.backdrop} open={vars.progress}>
-              <CircularProgress color="inherit" />
-            </Backdrop>
-                        
-            <InfoDialog 
-              open={vars.dialog}
-              title="Inscripción exitosa"
-              text="Te has inscrito como empleador de manera exitosa"
-            />
-            <Typography variant="h4" gutterBottom className={classes.titulo}> Registro de empleadores </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              Completa los campos solicitados para darte de alta como empleador
-            </Typography>
-            
-            <form>
-              <Grid container className={classes.row} spacing={1}> {/** ROW */}
-                <Grid item md={4} sm={10} xs={12} >
-                  <TextField
-                    className={classes.fieldText}
-                    id="nombre"
-                    label="Nombre(s)"
-                    variant="outlined"
-                    value={field.nombre.value}
-                    onChange={changeField}
-                    error={field.nombre.error}
-                    size="small"
-                    helperText={field.nombre.label}
-                  />
-                </Grid>
-                <Grid item md={4} sm={10} xs={12}>
-                  <TextField
-                    className={classes.fieldText}
-                    id="puesto"
-                    label="Puesto"
-                    variant="outlined"
-                    value={field.puesto.value}
-                    onChange={changeField}
-                    error={field.puesto.error}
-                    size="small"
-                    helperText={field.puesto.label}
-                  />
-                </Grid>
-                <Grid item md={4} sm={10} xs={12} >
-                  <TextField
-                    className={classes.fieldText}
-                    id="empresa"
-                    label="Empresa"
-                    variant="outlined"
-                    value={field.empresa.value}
-                    onChange={changeField}
-                    error={field.empresa.error}
-                    size="small"
-                    helperText={field.empresa.label}
-                  />
-                </Grid>
-              </Grid>
+    <Container fluid className="mt-3 mb-4">
+      <DialogInfo element={dialog} onHide={() => setDialog({...dialog, show: false})}/>
+      <Row className="justify-content-center">
+        <Col lg={11} md={11} sm={12} xs={12}>
+          <Link to="/empleador">Iniciar Sesión</Link>{' / '}<Link to="/empleador/inscripcion">Registro</Link>
+          <Card bg="light">
+            <Card.Body>
+              <Card.Title className="text-center">Registro de empleadores</Card.Title>
+              <Card.Text className="text-center text-muted">
+                Completa los campos solicitados para darte de alta como empleador.
+              </Card.Text>
+              <AlertaInfo activate={alerta.show} type={alerta.type} text={alerta.text}/>
+              <Form onSubmit={validaFormulario}>
+                <Form.Row>
+                  <Col lg={4} md={6} sm={12} xs={12}>
+                    <TextField element={field.nombre} onChange={handleChange} />
+                  </Col>
+                  <Col lg={4} md={6} sm={12} xs={12}>
+                    <TextField element={field.puesto} onChange={handleChange} />
+                  </Col>
+                  <Col lg={4} md={12} sm={12} xs={12}>
+                    <TextField element={field.empresa} onChange={handleChange} />
+                  </Col>
+                </Form.Row>
+                <Form.Row>
+                  <Col lg={4} md={6} sm={12} xs={12}>
+                    <TextField element={field.dirOficinaCentral} onChange={handleChange}/>
+                  </Col>
+                  <Col lg={4} md={6} sm={12} xs={12}>
+                    <TextField element={field.correo} onChange={handleChange} />
+                  </Col>
+                  <Col lg={4} md={12} sm={12} xs={12}>
+                    <TextField element={field.telOficina} onChange={handleChange} />
+                  </Col>
+                </Form.Row>
+                <Form.Row>
+                  <Col lg={4} md={6} sm={12} xs={12}>
+                    <TextField element={field.extension} onChange={handleChange} />
+                  </Col>
+                  <Col lg={4} md={6} sm={12} xs={12}>
+                    <TextField element={field.celular} onChange={handleChange} />
+                  </Col>
+                </Form.Row>
+                <Button variant="primary" type="submit" >
+                  Inscribirme
+                </Button>
+              </Form>
+              {/* <a href="/registro" >Registrarme como postulante externo</a> */}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
 
-              <Grid container className={classes.row} spacing={1}> {/** ROW */}
-                <Grid item md={4} sm={10} xs={12}>
-                  <TextField
-                    className={classes.fieldText}
-                    id="dirOficinaCentral"
-                    label="Dirección de la oficina central"
-                    variant="outlined"
-                    value={field.dirOficinaCentral.value}
-                    onChange={changeField}
-                    error={field.dirOficinaCentral.error}
-                    size="small"
-                    helperText={field.dirOficinaCentral.label}
-                  />
-                </Grid>
-                <Grid item md={4} sm={10} xs={12}>
-                  <TextField
-                    className={classes.fieldText}
-                    id="correo"
-                    label="Correo electrónico"
-                    variant="outlined"
-                    value={field.correo.value}
-                    onChange={changeField}
-                    error={field.correo.error}
-                    size="small"
-                    helperText={field.correo.label}
-                  />
-                </Grid>
-                <Grid item md={4} sm={10} xs={12}>
-                  <TextField
-                    className={classes.fieldText}
-                    id="telOficina"
-                    label="Teléfono de la oficina"
-                    variant="outlined"
-                    value={field.telOficina.value}
-                    onChange={changeField}
-                    error={field.telOficina.error}
-                    size="small"
-                    helperText={field.telOficina.label}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid container className={classes.row} spacing={1}> {/** ROW */}
-                <Grid item md={4} sm={10} xs={12}>
-                  <TextField
-                    className={classes.fieldText}
-                    id="extension"
-                    label="Extesión"
-                    variant="outlined"
-                    value={field.extension.value}
-                    onChange={changeField}
-                    error={field.extension.error}
-                    size="small"
-                    helperText={field.extension.label}
-                  />
-                </Grid>
-                <Grid item md={4} sm={10} xs={12} >
-                  <TextField
-                    className={classes.fieldText}
-                    id="celular"
-                    label="Celular"
-                    variant="outlined"
-                    value={field.celular.value}
-                    onChange={changeField}
-                    error={field.celular.error}
-                    size="small"
-                    helperText={field.celular.label}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid container className={classes.row} spacing={1}> {/** ROW */}
-                <Grid item md={3} sm={10} xs={12} >
-                  <Button className={classes.fieldText} variant="contained" color="primary" onClick={procesaInscripcionEmpleador} > Inscribirme </Button>
-                </Grid>
-              </Grid>
-            </form>
-          </Paper>
-        </Grid>
-      </Grid>
-    </div>
-  )
 };
 
 export default InscripcionEmpleador;

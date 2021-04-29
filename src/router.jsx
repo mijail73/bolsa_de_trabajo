@@ -40,7 +40,7 @@ const Router = () => {
       <Route exact path="/empleador/vacantes" component={VacantesEmpleador}/>
       <Route exact path="/empleador/vacantes/crear" component={RegistroVacante}/>
 
-      <Route exact path="/inscripcion" component={InscripcionEmpleador} />
+      <Route exact path="/empleador/inscripcion" component={InscripcionEmpleador} />
       <Route exact path="/info">INFORMACION DEL CORREDOR LABORAL</Route>
       <Route exact path="/taller"> QUIERO LLEVAR UN TALLER/ACTIVIDAD/WEBINAR A LA FAC </Route>
       <Route exact path="/contacto" component={Contacto} />
