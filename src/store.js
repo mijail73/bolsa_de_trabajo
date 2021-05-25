@@ -96,8 +96,7 @@ export const obtieneReglas = () => () => {
     email: (v) => /.+@.+\..+/.test(v) || 'Escribe un correo electrónico válido',
     cuenta: (v) => (/[0-9]+/.test(v) && v.length === 9) || 'Escribe un número de cuenta válido',
     cuentaEmail: (v) => ( /.+@.+\..+/.test(v) || (/[0-9]+/.test(v) && v.length === 9)) || 'Escribe un número de cuenta o correo válido',
-    celular: (v) => (/^([0-9])+$/.test(v) && v.length === 10) || 'Ingresa un número telefónico válido',
-  }
+    }
 };
 
 const store = createStore(stateReducer, compose(applyMiddleware(thunk)));
