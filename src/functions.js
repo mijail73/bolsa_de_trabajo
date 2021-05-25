@@ -17,6 +17,26 @@ const f = {
       phone: (v) => (/^([0-9])+$/.test(v) && v.length === 10) || 'Ingresa un número telefónico válido',
       number: (v) => (!v || /^([0-9])+$/.test(v)) || 'Ingresa un número entero válido',
     }
-  }
+  }, 
+  obtieneCarreraPorClave: (clave) => {
+    switch (clave) {
+      case 'Q': return 'Química';
+      case 'QA': return 'Química Analítica';
+      case 'IQ': return 'Ingeniería Química';
+      case 'IQM': return 'Ingeniería Química Metalúrgica';
+      case 'QIM': return 'Química e Ingeniería de Materiales';
+      case 'QFB': return 'Química Farmacéutica Biológica';
+      default: return '';
+    }
+  },
+  obtieneInglesPorClave: (clave) => {
+    return clave === 'I' ? 'Intermedio' : clave === 'A' ? 'Avanzado' : 'No necesario';
+  },
+  obtieneSexoPorClave: (clave) => {
+    return clave === 'M' ? 'Masculino' : clave === 'F' ? 'Femenino' : 'Indistinto';
+  },
+  obtieneEstatusPorClave: (clave) => {
+    return clave === 'P' ? 'Pendiente de aprobación' : clave === 'A' ? 'Aprobada' : clave === 'A' ? 'Rechazada' : '';
+  },
 };
 export default f;

@@ -47,7 +47,7 @@ CREATE TABLE vacante (
     tipoVacante ENUM('TC', 'MT', 'PP', 'B', 'T') NOT NULL, -- Tiempo completo, medio tiempo, practicas profesionales, becario, trainee.
     nombreVacante VARCHAR(100) NOT NULL,
     estatusAcademico VARCHAR(30) NOT NULL,
-    terminoMaterias CHAR(6) NULL,
+    terminoMaterias DATE NULL,
     carreras VARCHAR(30) NOT NULL,
     sexo ENUM('M', 'F', 'X') NOT NULL,
     ingles ENUM('I', 'A', 'X') NOT NULL, -- Intermedio, avanzado, No necesario
