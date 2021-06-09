@@ -9,12 +9,13 @@ axios.defaults.baseURL = baseURL;
 
 // State
 const state = {
-  postulante: [],
-  empleador: [{
+  postulante: {},
+  empleador: {
     idEmpleador: '1',
-    nombreEmpleador: 'Victor'
-  }],
-  admin: [],
+    nombreEmpleador: 'Victor',
+    vacantes: [],
+  },
+  admin: {},
 }
 
 // Reducer
@@ -24,18 +25,20 @@ function stateReducer (estado = state, action) {
       return {...estado, postulante: action.payload }
     case 'GUARDA_DATOS_EMPLEADOR':
       return {...estado, empleador: action.payload }
+    case 'GUARDA_VACANTES_EMPLEADOR':
+      return {...estado, empleador: {...estado.empleador, vacantes: action.payload }}
     default:
       return estado;
   }
 }
 
 // Actions
-export const validaLogin = (data) => (dispatch) => {
+export const validaLogin = (data, type) => (dispatch) => {
     return new Promise ((resolve, reject) => {
       axios.post('autenticacion.php', data, { headers: { BTKey: token }})
       .then (result => {
         if (result.data.replyCode === 200 && result.data.data.length > 0) {
-          dispatch({ type: 'GUARDA_DATOS_POSTULANTE', payload: result.data.data });
+          dispatch({ type: 'GUARDA_DATOS_POSTULANTE', payload: result.data.data[0] });
         }
         resolve(result.data);
       }).catch (error => {
@@ -79,11 +82,12 @@ export const registraVacante = (data) => () => {
     });
   });
 };
-export const obtieneVacantesEmpleador = (idEmpleador) => () => {
+export const obtieneVacantesEmpleador = (idEmpleador) => (dispatch) => {
   return new Promise ((resolve, reject) => {
     axios.get('obtieneVacantesEmpleador.php?idEmpleador='+idEmpleador, { headers: { BTKey: token }})
     .then (result => {
       resolve(result.data);
+      dispatch({ type: 'GUARDA_VACANTES_EMPLEADOR', payload: result.data.data });
     }).catch (error => {
       reject(error);
     });

@@ -10,7 +10,7 @@ import DialogInfo from './UI/DialogInfo';
 
 const VacantesEmpleador = () => {
   const history = useHistory();
-  const empleador = useSelector(store => store.empleador[0])
+  const empleador = useSelector(store => store.empleador)
   const dispatch = useDispatch();
   
   const [vacantes, setVacantes] = React.useState([]);
@@ -72,7 +72,7 @@ const VacantesEmpleador = () => {
 
   const goToEdition = (index) => {
     setModal(false);
-    history.push(`/crear/:${index}`);
+    history.push(`/empleador/vacantes/crear/${index}`);
   };
 
   const Content = () => {
@@ -115,13 +115,13 @@ const VacantesEmpleador = () => {
     dispatch(obtieneVacantesEmpleador(empleador.idEmpleador)).then(result => {
       setVacantes(result.data);
     }).catch(error => {
-      console.log(error);
+      setVacantes([]); console.log('Error vacantes: ', error);
     });
   }, []);
 
 
   return (
-    <Container fluid className="mt-3 mb-4">
+    <Container fluid className="mt-5 mb-4">
       <DialogInfo element={dialog} onHide={() => setDialog({...dialog, show: false})} agreeAction={borraVacante}/>
       <Row className="justify-content-center">
         <Col lg={10} md={11} sm={12} xs={12}>

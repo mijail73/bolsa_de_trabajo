@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import f from './../functions';
 import { registraVacante } from '../store';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import TextField from './UI/TextField';
 import Select from './UI/Select';
 import AlertaInfo from './UI/AlertaInfo';
@@ -11,7 +11,8 @@ import CheckBoxGroup from './UI/CheckBoxGroup';
 
 
 const RegistroVacante = () => {
-  const empleador = useSelector(store => store.empleador[0]);
+  const {indexVacante} = useParams();
+  const empleador = useSelector(store => store.empleador);
   const dispatch = useDispatch();
   const rules = f.reglas();
   const [field, setField] = React.useState({
@@ -296,6 +297,35 @@ const RegistroVacante = () => {
     }
   };
 
+  const isEdicion = () => {
+    return f.definido(indexVacante) && !isNaN(indexVacante) && parseInt(indexVacante) >= 0;
+  }
+
+  React.useEffect(() => {
+    if (isEdicion()) {
+      let vacante = empleador.vacantes[indexVacante];
+      if (f.objetoDefinido(vacante)) {
+        setField({
+          ...field, 
+          nombreVacante: {...field.nombreVacante, value: vacante.nombreVacante},
+          tipoVacante: {...field.tipoVacante, value: vacante.tipoVacante},
+          carreras: {...field.carreras, value: vacante.carreras.split(',')},
+          estatusAcademico: {...field.estatusAcademico, value: vacante.estatusAcademico.split(',')},
+          ingles: {...field.ingles, value: vacante.ingles},
+          sexo: {...field.sexo, value: vacante.sexo},
+          edadMinima: {...field.edadMinima, value: vacante.edadMinima},
+          horarioLaboral: {...field.horarioLaboral, value: vacante.horarioLaboral},
+          tipoContrato: {...field.tipoContrato, value: vacante.tipoContrato},
+          zonaTrabajo: {...field.zonaTrabajo, value: vacante.zonaTrabajo},
+          sueldo: {...field.sueldo, value: vacante.sueldo},
+          habilidades: {...field.habilidades, value: vacante.habilidades},
+          experiencia: {...field.experiencia, value: vacante.experiencia},
+          actividades: {...field.actividades, value: vacante.actividades},
+          vacantesTotales: {...field.vacantesTotales, value: vacante.vacantesTotales},
+        });
+      }
+    }
+  }, []);
 
   return (
     <Container fluid className="mt-3 mb-4">
@@ -383,7 +413,7 @@ const RegistroVacante = () => {
                 </Form.Row>
 
                 <Button variant="primary" type="submit" >
-                  Registrar vacante
+                  { isEdicion() ? 'Editar vacante' : 'Registrar vacante'}
                 </Button>
               </Form>
             </Card.Body>
